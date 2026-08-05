@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Andin Ardelina Saputri — Web Developer</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+tailwind.config={theme:{extend:{fontFamily:{sans:['Inter','sans-serif']}}}}
+</script>
+<style>
+/* ============================================
+   1. BASE & RESET
+   ============================================ */
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;background-color:#0c0c12;overflow-x:hidden;color:#e4e4e7}
+
+/* Colorful Background Glows */
+body::after{content:'';position:fixed;inset:0;z-index:-1;background-image:
+  radial-gradient(circle at 15% 15%, rgba(245, 158, 11, 0.15) 0%, transparent 25%),
+  radial-gradient(circle at 85% 15%, rgba(232, 121, 249, 0.15) 0%, transparent 25%),
+  radial-gradient(circle at 50% 85%, rgba(34, 211, 238, 0.12) 0%, transparent 25%);
+  background-attachment:fixed;pointer-events:none}
+
+::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:#09090b}::-webkit-scrollbar-thumb{background:#27272a;border-radius:2px}
+
+/* Noise texture overlay */
+body::before{content:'';position:fixed;inset:0;z-index:9999;pointer-events:none;opacity:.035;
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+background-repeat:repeat;background-size:200px 200px}
+
+/* ============================================
+   2. THEME SYSTEM 
+   ============================================ */
+[data-theme="amber"]   {--sc:245,158,11;  --sl:#fbbf24;--sd:#d97706;--sg:rgba(245,158,11,.1)}
+[data-theme="fuchsia"] {--sc:232,121,249; --sl:#e879f9;--sd:#c026d3;--sg:rgba(232,121,249,.1)}
+[data-theme="cyan"]    {--sc:34,211,238;  --sl:#22d3ee;--sd:#0891b2;--sg:rgba(34,211,238,.1)}
+[data-theme="rose"]    {--sc:251,113,133; --sl:#fb7185;--sd:#e11d48;--sg:rgba(251,113,133,.1)}
+[data-theme="lime"]    {--sc:163,230,53;  --sl:#a3e635;--sd:#65a30d;--sg:rgba(163,230,53,.1)}
+[data-theme="violet"]  {--sc:139,92,246;  --sl:#8b5cf6;--sd:#7c3aed;--sg:rgba(139,92,246,.1)}
+[data-theme="emerald"] {--sc:52,211,153;  --sl:#34d399;--sd:#059669;--sg:rgba(52,211,153,.1)}
+[data-theme="indigo"]  {--sc:129,140,248; --sl:#818cf8;--sd:#4f46e5;--sg:rgba(129,140,248,.1)}
+[data-theme="orange"]  {--sc:249,115,22;  --sl:#fb923c;--sd:#ea580c;--sg:rgba(249,115,22,.1)}
+[data-theme="sky"]     {--sc:56,189,248;  --sl:#38bdf8;--sd:#0284c7;--sg:rgba(56,189,248,.1)}
+
+/* ============================================
+   3. ANIMATIONS
+   ============================================ */
+@keyframes fiu{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fid{from{opacity:0;transform:translateY(-16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes tr{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0% 0 0)}}
+@keyframes shimmer{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}
+@keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+/* Hero */
+@keyframes heroFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes heroFloatCard1{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes heroFloatCard2{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes badgePulse{0%,100%{box-shadow:0 0 6px rgba(52,211,153,.25)}50%{box-shadow:0 0 14px rgba(52,211,153,.45)}}
+
+/* Orbs */
+@keyframes rs{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes rsr{from{transform:rotate(0)}to{transform:rotate(-360deg)}}
+@keyframes orbDrift1{0%,100%{transform:translate(0,0)}25%{transform:translate(15px,-10px)}50%{transform:translate(-8px,-18px)}75%{transform:translate(-15px,8px)}}
+@keyframes orbDrift2{0%,100%{transform:translate(0,0)}25%{transform:translate(-12px,14px)}50%{transform:translate(10px,8px)}75%{transform:translate(8px,-12px)}}
+
+/* Decorations */
+@keyframes blobMorph1{0%,100%{border-radius:60% 40% 30% 70%/60% 30% 70% 40%}25%{border-radius:30% 60% 70% 40%/50% 60% 30% 60%}50%{border-radius:50% 60% 30% 70%/40% 70% 50% 60%}75%{border-radius:40% 30% 60% 50%/70% 40% 60% 30%}}
+@keyframes blobMorph2{0%,100%{border-radius:40% 60% 70% 30%/40% 70% 30% 60%}25%{border-radius:70% 30% 50% 60%/60% 40% 70% 30%}50%{border-radius:30% 70% 40% 60%/30% 60% 40% 70%}75%{border-radius:60% 40% 60% 40%/50% 30% 60% 50%}}
+@keyframes blobMorph3{0%,100%{border-radius:50% 50% 40% 60%/50% 50% 60% 40%}50%{border-radius:40% 60% 50% 50%/60% 40% 50% 50%}}
+@keyframes floatGeo1{0%,100%{transform:translate(0,0) rotate(0deg)}25%{transform:translate(20px,-15px) rotate(5deg)}50%{transform:translate(-10px,-25px) rotate(-3deg)}75%{transform:translate(-20px,10px) rotate(4deg)}}
+@keyframes floatGeo2{0%,100%{transform:translate(0,0) rotate(0deg)}33%{transform:translate(-18px,12px) rotate(-6deg)}66%{transform:translate(12px,-18px) rotate(8deg)}}
+@keyframes floatGeo3{0%,100%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(15px,20px) rotate(10deg)}}
+@keyframes pulseRing{0%{transform:scale(.8);opacity:.6}50%{transform:scale(1.2);opacity:.15}100%{transform:scale(.8);opacity:.6}}
+@keyframes auroraMove{0%{transform:translateX(-10%) rotate(-3deg)}50%{transform:translateX(10%) rotate(3deg)}100%{transform:translateX(-10%) rotate(-3deg)}}
+@keyframes sparkFloat{0%,100%{opacity:.2;transform:translateY(0) scale(1)}50%{opacity:.8;transform:translateY(-20px) scale(1.3)}}
+@keyframes rotateBorder{to{--angle:360deg}}
+@property --angle{syntax:'<angle>';initial-value:0deg;inherits:false}
+
+/* ============================================
+   4. REVEAL / TRANSITION CLASSES
+   ============================================ */
+.a{opacity:0;transform:translateY(24px);transition:all .6s cubic-bezier(.16,1,.3,1)}
+.a.v{opacity:1;transform:translateY(0)}
+.a.l{transform:translateX(-24px)}.a.l.v{transform:translateX(0)}
+.a.r{transform:translateX(24px)}.a.r.v{transform:translateX(0)}
+.d1{transition-delay:.06s!important}.d2{transition-delay:.12s!important}.d3{transition-delay:.18s!important}
+.d4{transition-delay:.24s!important}.d5{transition-delay:.3s!important}.d6{transition-delay:.36s!important}
+
+.li{opacity:0;transform:translateX(-10px);transition:all .45s cubic-bezier(.16,1,.3,1)}
+.li.v{opacity:1;transform:translateX(0) scale(1)}
+
+.stag{opacity:0;transform:translateY(8px) scale(.96);transition:all .35s cubic-bezier(.16,1,.3,1)}
+.stag.v{opacity:1;transform:translateY(0) scale(1)}
+
+.inf{opacity:0;transform:translateY(12px);transition:all .5s cubic-bezier(.16,1,.3,1)}
+.inf.v{opacity:1;transform:translateY(0)}
+
+.hn{animation:tr .9s cubic-bezier(.16,1,.3,1) .3s both}
+.hs{animation:fiu .7s cubic-bezier(.16,1,.3,1) .55s both}
+.hc{animation:fiu .7s cubic-bezier(.16,1,.3,1) .85s both}
+.hsc{animation:fiu .7s cubic-bezier(.16,1,.3,1) 1s both}
+.hb{animation:fid .5s cubic-bezier(.16,1,.3,1) .1s both}
+
+.tl-dot{transform:scale(0);opacity:0;transition:all .4s cubic-bezier(.16,1,.3,1)}
+.tl-dot.v{transform:scale(1);opacity:1}
+
+/* ============================================
+   5. COMPONENTS
+   ============================================ */
+
+/* --- Navbar & Scroll Progress --- */
+#scrollProgress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#f59e0b,#e879f9,#22d3ee);z-index:100;transition:width .1s linear}
+.ng{background:rgba(12,12,18,.7);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(63,63,70,.4)}
+.nl{position:relative;transition:color .2s}
+.nl::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1.5px;background:linear-gradient(90deg,#f59e0b,#e879f9,#22d3ee);transition:width .3s cubic-bezier(.16,1,.3,1);border-radius:2px}
+.nl:hover::after,.nl.ac::after{width:100%}
+.nl:hover,.nl.ac{color:#fbbf24}
+.mm{transform:translateY(-100%);transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.mm.open{transform:translateY(0)}
+
+/* --- Buttons --- */
+.bp{background:linear-gradient(135deg,#f59e0b,#d97706);color:#09090b;transition:all .25s}
+.bp:hover{box-shadow:0 6px 24px -4px rgba(245,158,11,.3);transform:translateY(-1px)}
+.bs{border:1px solid #3f3f46;color:#d4d4d8;transition:all .25s;background:rgba(39,39,42,.4)}
+.bs:hover{border-color:#f59e0b;color:#fbbf24;background:rgba(245,158,11,.04)}
+
+/* --- Gradient text --- */
+.gt{background:linear-gradient(135deg,#fbbf24 0%,#f59e0b 25%,#e879f9 50%,#22d3ee 75%,#a3e635 100%);background-size:200% 200%;animation:gradientShift 6s ease infinite;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* --- Grid background --- */
+.gb{background-image:linear-gradient(rgba(255,255,255,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.015) 1px,transparent 1px);background-size:48px 48px}
+
+/* --- Skill tag --- */
+.st{transition:all .25s cubic-bezier(.16,1,.3,1);border:1px solid rgba(63,63,70,.6);background:rgba(24,24,27,.5);backdrop-filter:blur(4px)}
+.st:hover{transform:translateY(-1px);box-shadow:0 4px 16px -4px rgba(0,0,0,.3)}
+
+/* --- Glass Card (Universal) --- */
+.glass{background:rgba(24,24,27,.6);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(63,63,70,.5)}
+
+/* --- Glow card --- */
+.glow-card{transition:all .35s cubic-bezier(.16,1,.3,1);position:relative}
+.glow-card:hover{transform:translateY(-3px)}
+.glow-card .glow-bg{position:absolute;inset:0;opacity:0;transition:opacity .5s;filter:blur(40px);pointer-events:none;border-radius:inherit;z-index:0}
+.glow-card:hover .glow-bg{opacity:1}
+.glow-card>*{position:relative;z-index:1}
+
+/* --- Project Slider --- */
+.slider-wrapper{position:relative;overflow:hidden}
+.slider-track{display:flex;gap:1.5rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none;-ms-overflow-style:none;padding:1rem 0.5rem 1.5rem 0.5rem}
+.slider-track::-webkit-scrollbar{display:none}
+.slide-card{scroll-snap-align:start;flex:0 0 85%}
+@media(min-width:640px){.slide-card{flex:0 0 45%}}
+@media(min-width:1024px){.slide-card{flex:0 0 32%}.slider-track{padding:1rem 0 1.5rem 0;gap:1.5rem}}
+@media(min-width:1280px){.slide-card{flex:0 0 32%}}
+.slider-btn{transition:all .3s;background:rgba(24,24,27,.8);backdrop-filter:blur(8px)}
+.slider-btn:hover{background:rgba(63,63,70,.8);transform:scale(1.05)}
+
+/* --- Gallery / Documentation --- */
+.gallery-item{position:relative;overflow:hidden;border-radius:0.75rem;border:1px solid rgba(63,63,70,.5);cursor:pointer}
+.gallery-item img{width:100%;height:100%;object-fit:contain;transition:transform .6s cubic-bezier(.16,1,.3,1);background-color:#09090b}
+.gallery-item:hover img{transform:scale(1.05)}
+.gallery-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.85) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:1rem}
+.gallery-item:hover .gallery-overlay{opacity:1}
+
+/* --- Card Shimmer --- */
+.ch{transition:all .35s cubic-bezier(.16,1,.3,1);position:relative;overflow:hidden}
+.ch:hover{transform:translateY(-2px);box-shadow:0 12px 32px -8px rgba(0,0,0,.5)}
+.ch::after{content:'';position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,.02) 45%,rgba(255,255,255,.05) 50%,rgba(255,255,255,.02) 55%,transparent 60%);transform:translateX(-100%);pointer-events:none}
+.ch:hover::after{animation:shimmer .7s ease-out}
+
+/* --- Project card overlay --- */
+.pc .ov{opacity:0;transition:opacity .35s}.pc:hover .ov{opacity:1}
+.pc img{transition:transform .6s cubic-bezier(.16,1,.3,1)}.pc:hover img{transform:scale(1.02)}
+
+/* --- Certification card left bar --- */
+.cc{position:relative;overflow:hidden}
+.cc::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;transform:scaleY(0);transform-origin:bottom;transition:transform .4s cubic-bezier(.16,1,.3,1)}
+.cc:hover::before{transform:scaleY(1)}
+
+/* --- Rotating gradient border --- */
+.glow-border{position:relative}
+.glow-border::before{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;
+background:conic-gradient(from var(--angle,0deg),transparent 60%,rgba(var(--sc),.4) 75%,rgba(var(--sc),.4) 85%,transparent 100%);
+-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+-webkit-mask-composite:xor;mask-composite:exclude;
+animation:rotateBorder 4s linear infinite;pointer-events:none;opacity:0;transition:opacity .4s}
+.glow-border:hover::before{opacity:1}
+
+/* --- Timeline dot --- */
+.td{box-shadow:0 0 0 3px #09090b,0 0 0 4px #27272a;transition:all .3s}
+.td.on{box-shadow:0 0 0 3px #09090b,0 0 0 4px #f59e0b,0 0 10px rgba(245,158,11,.25)}
+
+/* --- Hero floats --- */
+.f1{animation:heroFloatCard1 6s ease-in-out infinite}
+.f2{animation:heroFloatCard2 7s ease-in-out infinite 1s}
+.hero-img-wrap{animation:heroFloat 7s ease-in-out infinite}
+.hero-badge{animation:badgePulse 3s ease-in-out infinite}
+
+/* --- Orbs --- */
+.orb{border:1px solid rgba(245,158,11,.05);animation:rs 40s linear infinite, orbDrift1 20s ease-in-out infinite}
+.orb2{border:1px dashed rgba(232,121,249,.04);animation:rsr 55s linear infinite, orbDrift2 25s ease-in-out infinite}
+
+/* --- Section line accent --- */
+.line-accent{height:2px;border-radius:1px;background:linear-gradient(90deg,var(--lc1),var(--lc2),transparent)}
+
+/* --- Wave divider --- */
+.wave-divider{position:relative;overflow:hidden}
+.wave-divider::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;
+background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 60'%3E%3Cpath fill='%230c0c12' d='M0,30 C360,60 720,0 1080,30 C1260,45 1380,40 1440,35 L1440,60 L0,60 Z'/%3E%3C/svg%3E") no-repeat bottom center;
+background-size:100% 100%;pointer-events:none}
+
+/* --- Dashed pattern --- */
+.dash-pattern{background-image:repeating-linear-gradient(0deg,rgba(255,255,255,.02) 0px,rgba(255,255,255,.02) 1px,transparent 1px,transparent 20px),
+repeating-linear-gradient(90deg,rgba(255,255,255,.02) 0px,rgba(255,255,255,.02) 1px,transparent 1px,transparent 20px)}
+
+/* --- Pulse ring --- */
+.pulse-ring{position:absolute;inset:-8px;border-radius:inherit;border:1px solid;animation:pulseRing 3s ease-in-out infinite;pointer-events:none}
+
+/* ============================================
+   6. DECORATION ELEMENTS
+   ============================================ */
+.blob{position:absolute;filter:blur(80px);pointer-events:none;will-change:transform}
+.blob-m1{animation:blobMorph1 12s ease-in-out infinite, floatGeo1 18s ease-in-out infinite}
+.blob-m2{animation:blobMorph2 15s ease-in-out infinite, floatGeo2 22s ease-in-out infinite}
+.blob-m3{animation:blobMorph3 10s ease-in-out infinite, floatGeo3 16s ease-in-out infinite}
+.blob-sm{width:200px;height:200px}
+.blob-md{width:320px;height:320px}
+.blob-lg{width:450px;height:450px}
+.blob-themed{background:rgba(var(--sc),.12)}
+
+.geo{position:absolute;pointer-events:none;opacity:.1}
+.geo-f1{animation:floatGeo1 20s ease-in-out infinite}
+.geo-f2{animation:floatGeo2 25s ease-in-out infinite}
+.geo-f3{animation:floatGeo3 18s ease-in-out infinite}
+.geo-themed svg{stroke:rgba(var(--sc),.4)}
+
+.spark{position:absolute;width:3px;height:3px;border-radius:50%;pointer-events:none;animation:sparkFloat 4s ease-in-out infinite}
+.spark-themed{background:rgb(var(--sc))}
+
+.aurora{position:absolute;width:200%;height:1px;pointer-events:none;animation:auroraMove 8s ease-in-out infinite}
+.aurora-themed{background:linear-gradient(90deg,transparent,rgba(var(--sc),.08),rgba(var(--sc),.06),transparent);filter:blur(1px)}
+
+.rglow{position:absolute;border-radius:50%;pointer-events:none;background:radial-gradient(ellipse,rgba(var(--sc),.06) 0%,transparent 70%)}
+.rglow-sm{width:300px;height:300px}
+.rglow-md{width:450px;height:450px}
+.rglow-lg{width:600px;height:600px}
+
+/* ============================================
+   7. SECTION UTILITIES
+   ============================================ */
+.sec{position:relative;overflow:hidden}
+.sec-content{position:relative;z-index:10}
+.sec-decor{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+
+@media(max-width:639px){
+.hfc{display:none!important}
+.hide-mobile{display:none!important}
+.blob-sm,.blob-md{width:150px;height:150px}
+.blob-lg{width:250px;height:250px}
+.rglow-sm{width:200px;height:200px}
+.rglow-md{width:280px;height:280px}
+.rglow-lg{width:350px;height:350px}
+}
+</style>
+</head>
+<body class="antialiased text-zinc-200">
+
+<div id="scrollProgress"></div>
+
+<!-- NAVBAR -->
+<nav id="navbar" class="fixed top-0 left-0 right-0 z-50 ng transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-14 sm:h-16 lg:h-16">
+      <a href="#hero" class="text-base font-semibold tracking-tight text-zinc-100">portfolio<span class="text-amber-500">.</span></a>
+      <div class="hidden md:flex items-center gap-5 lg:gap-6">
+        <a href="#about" class="nl text-xs font-medium text-zinc-400">Tentang</a>
+        <a href="#skills" class="nl text-xs font-medium text-zinc-400">Keahlian</a>
+        <a href="#experience" class="nl text-xs font-medium text-zinc-400">Pengalaman</a>
+        <a href="#projects" class="nl text-xs font-medium text-zinc-400">Proyek</a>
+        <a href="#documentation" class="nl text-xs font-medium text-zinc-400">Dokumentasi</a>
+        <a href="#certifications" class="nl text-xs font-medium text-zinc-400">Sertifikasi</a>
+        <a href="#resume" class="nl text-xs font-medium text-zinc-400">Resume</a>
+        <a href="#contact" class="nl text-xs font-medium text-zinc-400">Kontak</a>
+      </div>
+      <button id="menuBtn" class="md:hidden p-2 rounded-lg hover:bg-zinc-800 transition-colors"><i data-lucide="menu" class="w-5 h-5"></i></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobileMenu" class="mm fixed inset-0 z-40 bg-zinc-950/95 backdrop-blur-lg pt-14">
+  <div class="px-5 py-5 flex flex-col gap-4">
+    <a href="#about" class="ml mobile-link text-lg font-medium text-zinc-200 hover:text-amber-400 transition-colors">Tentang</a>
+    <a href="#skills" class="ml mobile-link text-lg font-medium text-zinc-200 hover:text-amber-400 transition-colors">Keahlian</a>
+    <a href="#experience" class="ml mobile-link text-lg font-medium text-zinc-200 hover:text-amber-400 transition-colors">Pengalaman</a>
+    <a href="#projects" class="ml mobile-link text-lg font-medium text-zinc-200 hover:text-amber-400 transition-colors">Proyek</a>
+    <a href="#documentation" class="ml mobile-link text-lg font-medium text-zinc-200 hover:text-amber-400 transition-colors">Dokumentasi</a>
+    <a href="#certifications" class="ml mobile-link text-lg font-medium text-zinc-200 hover:text-amber-400 transition-colors">Sertifikasi</a>
+    <a href="#resume" class="ml mobile-link text-lg font-medium text-zinc-200 hover:text-amber-400 transition-colors">Resume</a>
+    <a href="#contact" class="ml mobile-link text-lg font-medium text-zinc-200 hover:text-amber-400 transition-colors">Kontak</a>
+    <div class="mt-5 pt-5 border-t border-zinc-800 flex gap-3 justify-center">
+      <a href="mailto:andinardelinaa@gmail.com" class="p-2.5 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i></a>
+      <a href="https://linkedin.com/in/andinardelinasaputri" target="_blank" class="p-2.5 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-colors"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+      <a href="https://github.com/andinardelinaa" target="_blank" class="p-2.5 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-colors"><i data-lucide="github" class="w-4 h-4"></i></a>
+      <a href="https://wa.me/6282233084375" target="_blank" class="p-2.5 rounded-full bg-zinc-800 hover:bg-zinc-700 transition-colors"><i data-lucide="message-circle" class="w-4 h-4"></i></a>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="hero" class="sec min-h-screen flex items-center gb wave-divider" data-theme="amber">
+  <div class="sec-decor">
+    <div class="blob blob-m1 blob-lg" style="top:-10%;right:-5%;background:rgba(245,158,11,.15)"></div>
+    <div class="blob blob-m2 blob-lg hide-mobile" style="bottom:-15%;left:-8%;background:rgba(232,121,249,.12)"></div>
+    <div class="blob blob-m3 blob-md hide-mobile" style="top:30%;left:25%;background:rgba(34,211,238,.1)"></div>
+    <div class="blob blob-m1 blob-sm hide-mobile" style="bottom:10%;right:20%;background:rgba(163,230,53,.1);animation-delay:-5s"></div>
+    <div class="geo geo-f1 hide-mobile" style="top:12%;left:8%">
+      <svg width="60" height="60" viewBox="0 0 60 60"><rect x="10" y="10" width="40" height="40" rx="8" stroke="rgba(245,158,11,.4)" stroke-width="1" fill="none" transform="rotate(15 30 30)"/></svg>
+    </div>
+    <div class="geo geo-f2 hide-mobile" style="top:20%;right:12%">
+      <svg width="50" height="50" viewBox="0 0 50 50"><circle cx="25" cy="25" r="18" stroke="rgba(232,121,249,.3)" stroke-width="1" fill="none" stroke-dasharray="4 4"/></svg>
+    </div>
+    <div class="geo geo-f3 hide-mobile" style="bottom:25%;left:15%">
+      <svg width="45" height="45" viewBox="0 0 45 45"><polygon points="22.5,5 40,38 5,38" stroke="rgba(34,211,238,.3)" stroke-width="1" fill="none"/></svg>
+    </div>
+    <div class="spark" style="top:18%;left:20%;background:#fbbf24"></div>
+    <div class="spark" style="top:35%;right:15%;background:#e879f9;animation-delay:1s"></div>
+    <div class="spark" style="bottom:30%;left:12%;background:#22d3ee;animation-delay:2s"></div>
+    <div class="spark" style="top:55%;right:25%;background:#a3e635;animation-delay:.5s"></div>
+    <div class="aurora hide-mobile" style="top:40%;left:-50%;background:linear-gradient(90deg,transparent,rgba(245,158,11,.08),rgba(232,121,249,.08),rgba(34,211,238,.08),transparent);height:2px"></div>
+    <div class="aurora hide-mobile" style="top:65%;left:-50%;background:linear-gradient(90deg,transparent,rgba(34,211,238,.06),rgba(163,230,53,.06),transparent);height:1px;animation-delay:-3s;animation-duration:10s"></div>
+    <div class="rglow rglow-lg" style="top:0;right:0;background:radial-gradient(ellipse,rgba(245,158,11,.1) 0%,transparent 70%)"></div>
+    <div class="rglow rglow-md" style="bottom:0;left:0;background:radial-gradient(ellipse,rgba(232,121,249,.08) 0%,transparent 70%)"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 sm:w-[680px] h-96 sm:h-[680px] orb rounded-full"></div>
+    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 sm:w-[460px] h-64 sm:h-[460px] orb2 rounded-full"></div>
+  </div>
+
+  <div class="sec-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-20 pb-10 sm:pt-20 sm:pb-14 lg:pt-0 lg:pb-0">
+    <div class="flex flex-col lg:grid lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-14 items-center text-center lg:text-left">
+      
+      <div class="order-1 flex flex-col items-center lg:items-start">
+        <div class="hb hero-badge inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass border border-zinc-700/50 mb-4 sm:mb-6 backdrop-blur-sm">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-lg shadow-emerald-400/50"></span>
+          <span class="text-[10px] font-medium text-zinc-300 uppercase tracking-widest">Open to Work</span>
+        </div>
+        <h1 class="hn text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight leading-[1.06] text-zinc-100">
+          Andin<br><span class="gt">Ardelina</span><br><span class="text-zinc-400">Saputri</span>
+        </h1>
+        <p class="hs mt-3 sm:mt-5 text-sm sm:text-base md:text-lg text-zinc-300 font-light leading-relaxed max-w-lg">
+          INFORMATICS ENGINEERING — Web & Mobile Developer | Web Design | Data Entry | dengan passion membangun solusi digital yang bermakna.
+        </p>
+        <div class="hc mt-5 sm:mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-2.5 sm:gap-3">
+          <a href="#projects" class="bp group inline-flex items-center gap-1.5 px-5 sm:px-7 py-2.5 sm:py-3.5 text-xs sm:text-sm font-semibold rounded-full">Lihat Proyek<i data-lucide="arrow-down-right" class="w-3 h-3 sm:w-4 sm:h-4 transition-transform group-hover:translate-x-0.5 group-hover:translate-y-0.5"></i></a>
+          <a href="#contact" class="bs inline-flex items-center gap-1.5 px-5 sm:px-7 py-2.5 sm:py-3.5 text-xs sm:text-sm font-medium rounded-full">Hubungi Saya</a>
+        </div>
+        
+        <div class="hsc mt-6 sm:mt-10 flex items-center justify-center lg:justify-start gap-3 sm:gap-4">
+          <a href="https://github.com/andinardelinaa" target="_blank" class="p-2 sm:p-2.5 rounded-full border border-zinc-700 hover:border-orange-500 hover:text-orange-400 hover:bg-orange-500/10 transition-all"><i data-lucide="github" class="w-4 h-4"></i></a>
+          <a href="https://linkedin.com/in/andinardelinasaputri" target="_blank" class="p-2 sm:p-2.5 rounded-full border border-zinc-700 hover:border-fuchsia-400 hover:text-fuchsia-400 hover:bg-fuchsia-500/10 transition-all"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+          <a href="mailto:andinardelinaa@gmail.com" class="p-2 sm:p-2.5 rounded-full border border-zinc-700 hover:border-rose-400 hover:text-rose-400 hover:bg-rose-500/10 transition-all"><i data-lucide="mail" class="w-4 h-4"></i></a>
+          <a href="https://wa.me/6282233084375" target="_blank" class="p-2 sm:p-2.5 rounded-full border border-zinc-700 hover:border-emerald-400 hover:text-emerald-400 hover:bg-emerald-500/10 transition-all"><i data-lucide="message-circle" class="w-4 h-4"></i></a>
+        </div>
+      </div>
+
+      <div class="order-2 flex justify-center lg:justify-end lg:mr-20 mt-4 lg:mt-0">
+        <div class="hs hero-img-wrap relative">
+          <div class="pulse-ring rounded-2xl sm:rounded-3xl border-amber-500/20"></div>
+          <div class="pulse-ring rounded-2xl sm:rounded-3xl border-fuchsia-500/15" style="inset:-16px;animation-delay:1s"></div>
+          <div class="w-52 h-64 sm:w-64 sm:h-80 md:w-72 md:h-96 lg:w-80 lg:h-[440px] rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl shadow-black/50 border border-zinc-700/50 relative">
+            <img src="img/andin.jpeg" alt="Andin Ardelina" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-t from-zinc-950/40 via-transparent to-transparent pointer-events:none"></div>
+            <div class="absolute inset-0 bg-gradient-to-r from-amber-500/5 via-transparent to-fuchsia-500/5 pointer-events-none"></div>
+          </div>
+          <div class="hfc absolute -bottom-3 -left-4 sm:-left-8 glass rounded-xl sm:rounded-2xl shadow-xl shadow-black/40 p-2.5 sm:p-3.5 border border-zinc-700/50 f1">
+            <div class="flex items-center gap-2 sm:gap-3">
+              <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center shadow-lg shadow-amber-500/20"><i data-lucide="code-2" class="w-3 h-3 sm:w-4 sm:h-4 text-zinc-950"></i></div>
+              <div><p class="text-[9px] sm:text-xs font-semibold text-zinc-100">Web Developer</p><p class="text-[7px] sm:text-[9px] text-zinc-400">Laravel · JavaScript</p></div>
+            </div>
+          </div>
+          <div class="hfc absolute -top-3 -right-3 sm:-right-6 glass rounded-xl sm:rounded-2xl shadow-xl shadow-black/40 p-2.5 sm:p-3.5 border border-zinc-700/50 f2">
+            <div class="flex items-center gap-2 sm:gap-3">
+              <div class="w-7 h-7 sm:w-9 sm:h-9 rounded-lg sm:rounded-xl bg-gradient-to-br from-cyan-400 to-fuchsia-500 flex items-center justify-center shadow-lg shadow-fuchsia-500/20"><i data-lucide="smartphone" class="w-3 h-3 sm:w-4 sm:h-4 text-white"></i></div>
+              <div><p class="text-[9px] sm:text-xs font-semibold text-zinc-100">Mobile Dev</p><p class="text-[7px] sm:text-[9px] text-zinc-400">Flutter · Dart</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="hsc absolute bottom-5 sm:bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 z-10 hidden lg:flex">
+    <span class="text-[8px] sm:text-[9px] uppercase tracking-[0.2em] text-zinc-500 font-medium">Scroll</span>
+    <div class="w-px h-5 sm:h-7 bg-gradient-to-b from-fuchsia-500/40 to-transparent animate-pulse"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="sec py-12 sm:py-16 lg:py-24" data-theme="fuchsia">
+  <div class="sec-decor">
+    <div class="blob blob-m2 blob-lg blob-themed hide-mobile" style="top:-20%;right:-10%"></div>
+    <div class="geo geo-f3 hide-mobile geo-themed" style="top:15%;right:10%">
+      <svg width="70" height="70" viewBox="0 0 70 70"><circle cx="35" cy="35" r="28" stroke-width="1" fill="none"/><circle cx="35" cy="35" r="15" stroke-width="1" fill="none" stroke-dasharray="3 5"/></svg>
+    </div>
+    <div class="spark spark-themed" style="top:25%;right:20%;animation-delay:.8s"></div>
+    <div class="rglow rglow-lg" style="top:0;right:0"></div>
+  </div>
+
+  <div class="sec-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-12 gap-6 sm:gap-10 lg:gap-14">
+      <div class="lg:col-span-4">
+        <div class="a text-center lg:text-left">
+          <span class="text-[10px] font-semibold text-amber-400 uppercase tracking-[.12em]">Tentang Saya</span>
+          <h2 class="mt-2 sm:mt-3 text-xl sm:text-2xl md:text-3xl font-medium tracking-tight leading-tight text-zinc-100">Who i am ?</h2>
+          <div class="line-accent mt-4 w-16 mx-auto lg:mx-0" style="--lc1:#f59e0b;--lc2:#e879f9"></div>
+        </div>
+        <div class="a d2 mt-5 sm:mt-6 flex gap-5 sm:gap-6 justify-center lg:justify-start">
+          <div class="text-center"><p class="text-2xl sm:text-3xl font-semibold gt" data-count="3">0</p><p class="text-[10px] sm:text-xs text-zinc-400 mt-0.5">Sertifikasi</p></div>
+          <div class="text-center"><p class="text-2xl sm:text-3xl font-semibold text-cyan-400" data-count="10">0</p><p class="text-[10px] sm:text-xs text-zinc-400 mt-0.5">Proyek</p></div>
+          <div class="text-center"><p class="text-2xl sm:text-3xl font-semibold text-fuchsia-400" data-count="3">0</p><p class="text-[10px] sm:text-xs text-zinc-400 mt-0.5">Organisasi</p></div>
+        </div>
+      </div>
+      <div class="lg:col-span-8">
+        <div class="a r">
+          <p class="text-sm sm:text-base text-zinc-300 font-light leading-[1.7]">Fresh Graduate Diploma III Teknik Informatika yang memiliki minat di bidang pengembangan aplikasi, pengembangan web, UI/UX Design, dan teknologi informasi. Memiliki pengalaman mengembangkan aplikasi web dan mobile melalui kegiatan magang, proyek akademik, dan tugas akhir.</p>
+          <p class="mt-2.5 text-sm sm:text-base text-zinc-300 font-light leading-[1.7]">Terbiasa bekerja secara individu maupun dalam tim, memiliki kemampuan komunikasi, public speaking, serta mampu beradaptasi dengan cepat. Berkomitmen untuk terus belajar, berkembang, dan memberikan kontribusi terbaik dalam lingkungan kerja.</p>
+        </div>
+        <div class="mt-5 sm:mt-6 grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
+          <div class="inf glow-card flex items-center gap-2.5 p-3 sm:p-3.5 rounded-xl glass hover:border-orange-500/30">
+            <div class="glow-bg" style="background:rgba(249,115,22,.06)"></div>
+            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-orange-400/80 shrink-0"></i>
+            <span class="text-xs sm:text-sm text-zinc-200">Banyumas, Jawa Tengah</span>
+          </div>
+          <div class="inf d1 glow-card flex items-center gap-2.5 p-3 sm:p-3.5 rounded-xl glass hover:border-fuchsia-500/30">
+            <div class="glow-bg" style="background:rgba(232,121,249,.06)"></div>
+            <i data-lucide="graduation-cap" class="w-3.5 h-3.5 text-fuchsia-400/80 shrink-0"></i>
+            <span class="text-xs sm:text-sm text-zinc-200">D3 Teknik Informatika</span>
+          </div>
+          <div class="inf d2 glow-card flex items-center gap-2.5 p-3 sm:p-3.5 rounded-xl glass hover:border-emerald-500/30">
+            <div class="glow-bg" style="background:rgba(52,211,153,.06)"></div>
+            <i data-lucide="phone" class="w-3.5 h-3.5 text-emerald-400/80 shrink-0"></i>
+            <span class="text-xs sm:text-sm text-zinc-200">082233084375</span>
+          </div>
+          <div class="inf d3 glow-card flex items-center gap-2.5 p-3 sm:p-3.5 rounded-xl glass hover:border-cyan-500/30">
+            <div class="glow-bg" style="background:rgba(34,211,238,.06)"></div>
+            <i data-lucide="mail" class="w-3.5 h-3.5 text-cyan-400/80 shrink-0"></i>
+            <span class="text-xs sm:text-sm text-zinc-200 break-all">andinardelinaa@gmail.com</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="sec py-12 sm:py-16 lg:py-24" data-theme="lime">
+  <div class="sec-decor">
+    <div class="blob blob-m1 blob-lg blob-themed hide-mobile" style="top:-15%;right:-5%;animation-delay:-3s"></div>
+    <div class="blob blob-m3 blob-md blob-themed hide-mobile" style="bottom:-10%;left:-8%;animation-delay:-7s"></div>
+    <div class="aurora aurora-themed hide-mobile" style="top:50%;left:-50%;animation-duration:12s"></div>
+    <div class="spark spark-themed" style="top:20%;left:15%;animation-delay:.3s"></div>
+  </div>
+
+  <div class="sec-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center a">
+      <span class="text-[10px] font-semibold text-lime-400 uppercase tracking-[.12em]">Keahlian</span>
+      <h2 class="mt-2 sm:mt-3 text-xl sm:text-2xl md:text-3xl font-medium tracking-tight text-zinc-100">Tech Stack & Skills</h2>
+      <div class="line-accent mt-4 mx-auto w-16" style="--lc1:#a3e635;--lc2:#22d3ee"></div>
+    </div>
+
+    <div class="mt-8 sm:mt-12 a">
+      <div class="flex items-center gap-2.5 mb-4 sm:mb-6 justify-center">
+        <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-amber-400 to-orange-600 flex items-center justify-center shadow-lg shadow-amber-500/15"><i data-lucide="code-2" class="w-3.5 h-3.5 text-zinc-950"></i></div>
+        <h3 class="text-sm sm:text-base font-medium text-zinc-200">Technical Skills</h3>
+      </div>
+      <div class="flex flex-wrap gap-2 skill-tags justify-center">
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(251,191,36,.1)';this.style.borderColor='rgba(251,191,36,.35)';this.style.color='#fbbf24'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">HTML5</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(56,189,248,.1)';this.style.borderColor='rgba(56,189,248,.35)';this.style.color='#38bdf8'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">CSS3</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(251,191,36,.1)';this.style.borderColor='rgba(251,191,36,.35)';this.style.color='#fbbf24'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">JavaScript</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(251,113,133,.1)';this.style.borderColor='rgba(251,113,133,.35)';this.style.color='#fb7185'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">PHP</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(249,115,22,.1)';this.style.borderColor='rgba(249,115,22,.35)';this.style.color='#fb923c'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">Laravel</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(34,211,238,.1)';this.style.borderColor='rgba(34,211,238,.35)';this.style.color='#22d3ee'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">Flutter</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(163,230,53,.1)';this.style.borderColor='rgba(163,230,53,.35)';this.style.color='#a3e635'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">Dart</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(52,211,153,.1)';this.style.borderColor='rgba(52,211,153,.35)';this.style.color='#34d399'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">MySQL</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(56,189,248,.1)';this.style.borderColor='rgba(56,189,248,.35)';this.style.color='#38bdf8'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">PostgreSQL</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(232,121,249,.1)';this.style.borderColor='rgba(232,121,249,.35)';this.style.color='#e879f9'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">Figma</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(251,113,133,.1)';this.style.borderColor='rgba(251,113,133,.35)';this.style.color='#fb7185'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">Git & GitHub</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(129,140,248,.1)';this.style.borderColor='rgba(129,140,248,.35)';this.style.color='#818cf8'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">REST API</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(52,211,153,.1)';this.style.borderColor='rgba(52,211,153,.35)';this.style.color='#34d399'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">MikroTik</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(34,211,238,.1)';this.style.borderColor='rgba(34,211,238,.35)';this.style.color='#22d3ee'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">Tailwind CSS</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(167,139,250,.1)';this.style.borderColor='rgba(167,139,250,.35)';this.style.color='#a78bfa'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">WordPress</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(251,191,36,.1)';this.style.borderColor='rgba(251,191,36,.35)';this.style.color='#fbbf24'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">Microsoft Office</span>
+      </div>
+    </div>
+
+    <div class="mt-6 sm:mt-8 a d2">
+      <div class="flex items-center gap-2.5 mb-4 sm:mb-6 justify-center">
+        <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-fuchsia-500 to-violet-600 flex items-center justify-center shadow-lg shadow-fuchsia-500/15"><i data-lucide="heart-handshake" class="w-3.5 h-3.5 text-white"></i></div>
+        <h3 class="text-sm sm:text-base font-medium text-zinc-200">Soft Skills</h3>
+      </div>
+      <div class="flex flex-wrap gap-2 skill-tags-soft justify-center">
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(232,121,249,.1)';this.style.borderColor='rgba(232,121,249,.35)';this.style.color='#e879f9'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">Problem Solving</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(34,211,238,.1)';this.style.borderColor='rgba(34,211,238,.35)';this.style.color='#22d3ee'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">Teamwork</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(251,191,36,.1)';this.style.borderColor='rgba(251,191,36,.35)';this.style.color='#fbbf24'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">Communication</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(251,113,133,.1)';this.style.borderColor='rgba(251,113,133,.35)';this.style.color='#fb7185'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">Public Speaking</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(129,140,248,.1)';this.style.borderColor='rgba(129,140,248,.35)';this.style.color='#818cf8'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">Leadership</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(163,230,53,.1)';this.style.borderColor='rgba(163,230,53,.35)';this.style.color='#a3e635'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">Time Management</span>
+        <span class="stag st px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-[11px] sm:text-xs font-medium text-zinc-200 cursor-default" onmouseenter="this.style.background='rgba(56,189,248,.1)';this.style.borderColor='rgba(56,189,248,.35)';this.style.color='#38bdf8'" onmouseleave="this.style.background='rgba(24,24,27,.5)';this.style.borderColor='rgba(63,63,70,.5)';this.style.color='#e4e4e7'">Adaptability</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="sec py-12 sm:py-16 lg:py-24" data-theme="indigo">
+  <div class="sec-decor">
+    <div class="blob blob-m3 blob-md blob-themed hide-mobile" style="top:-10%;left:-5%;animation-delay:-2s"></div>
+    <div class="blob blob-m1 blob-md blob-themed hide-mobile" style="bottom:-15%;right:-8%;animation-delay:-8s"></div>
+    <div class="spark spark-themed" style="top:15%;left:20%;animation-delay:1.2s"></div>
+  </div>
+
+  <div class="sec-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-12 gap-6 sm:gap-10 lg:gap-14">
+      <div class="lg:col-span-4">
+        <div class="a lg:sticky lg:top-20 text-center lg:text-left">
+          <span class="text-[10px] font-semibold text-cyan-400 uppercase tracking-[.12em]">Pengalaman</span>
+          <h2 class="mt-2 sm:mt-3 text-xl sm:text-2xl md:text-3xl font-medium tracking-tight leading-tight text-zinc-100">Journey<br>& Growth</h2>
+          <div class="line-accent mt-4 w-16 mx-auto lg:mx-0" style="--lc1:#22d3ee;--lc2:#818cf8"></div>
+          <p class="mt-3 sm:mt-4 text-zinc-400 font-light leading-relaxed text-xs sm:text-sm">Perjalanan profesional dan akademik yang membentuk kompetensi saya.</p>
+        </div>
+      </div>
+
+      <div class="lg:col-span-8">
+        <div class="a r relative pl-6 sm:pl-9 pb-8 sm:pb-12 tl-item">
+          <div class="absolute left-0 top-0 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-amber-500 -translate-x-[4.5px] sm:-translate-x-[6.5px] td on tl-dot"></div>
+          <div class="absolute left-[2.5px] sm:left-[3px] top-4 bottom-0 w-px bg-gradient-to-b from-amber-500/30 to-transparent"></div>
+          <div class="flex flex-wrap items-center gap-2 mb-1.5 sm:mb-2">
+            <span class="text-[10px] sm:text-xs font-semibold text-zinc-400 uppercase tracking-wider">Agt 2025 – Des 2025</span>
+            <span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 text-[9px] sm:text-[10px] font-semibold rounded-full uppercase tracking-wider border border-amber-500/20">Magang</span>
+            <span class="px-2 py-0.5 bg-orange-500/10 text-orange-400 text-[9px] sm:text-[10px] font-semibold rounded-full uppercase tracking-wider border border-orange-500/20">Banyumas</span>
+          </div>
+          <h3 class="text-base sm:text-lg font-medium tracking-tight text-zinc-100">Magang Industri</h3>
+          <p class="text-zinc-400 text-[11px] sm:text-xs mt-0.5">Dinas Komunikasi dan Informatika Kabupaten Banyumas</p>
+          <ul class="mt-2.5 sm:mt-3 space-y-1.5 sm:space-y-2 tl-list">
+            <li class="li flex gap-2 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="check" class="w-3 h-3 text-amber-500/60 mt-0.5 shrink-0"></i>Mengembangkan aplikasi mobile pengajuan magang menggunakan Flutter</li>
+            <li class="li flex gap-2 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="check" class="w-3 h-3 text-amber-500/60 mt-0.5 shrink-0"></i>Mengembangkan sistem pengajuan magang berbasis web menggunakan Laravel, PHP, dan PostgreSQL</li>
+            <li class="li flex gap-2 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="check" class="w-3 h-3 text-amber-500/60 mt-0.5 shrink-0"></i>Merancang dan mengembangkan website profil Diskominfo menggunakan HTML, CSS, JavaScript, dan prinsip desain web</li>
+            <li class="li flex gap-2 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="check" class="w-3 h-3 text-amber-500/60 mt-0.5 shrink-0"></i>Menerapkan praktik DevOps untuk proses deployment aplikasi ke server produksi</li>
+            <li class="li flex gap-2 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="check" class="w-3 h-3 text-amber-500/60 mt-0.5 shrink-0"></i>Berkolaborasi dengan tim dalam menyelesaikan proyek sesuai target waktu</li>
+            <li class="li flex gap-2 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="check" class="w-3 h-3 text-amber-500/60 mt-0.5 shrink-0"></i>Melakukan presentasi dan demonstrasi aplikasi kepada pihak Diskominfo Kabupaten Banyumas</li>
+            <li class="li flex gap-2 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="check" class="w-3 h-3 text-amber-500/60 mt-0.5 shrink-0"></i>Menyusun dokumentasi teknis dan laporan akhir magang menggunakan Microsoft Office</li>
+          </ul>
+        </div>
+
+        <div class="a r d1 relative pl-6 sm:pl-9 pb-8 sm:pb-12 tl-item">
+          <div class="absolute left-0 top-0 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-fuchsia-500 -translate-x-[4.5px] sm:-translate-x-[6.5px] td tl-dot"></div>
+          <div class="absolute left-[2.5px] sm:left-[3px] top-4 bottom-0 w-px bg-gradient-to-b from-fuchsia-500/30 to-transparent"></div>
+          <div class="flex flex-wrap items-center gap-2 mb-1.5 sm:mb-2">
+            <span class="text-[10px] sm:text-xs font-semibold text-zinc-400 uppercase tracking-wider">Agt 2023 – Okt 2026</span>
+            <span class="px-2 py-0.5 bg-fuchsia-500/10 text-fuchsia-400 text-[9px] sm:text-[10px] font-semibold rounded-full uppercase tracking-wider border border-fuchsia-500/20">Pendidikan</span>
+            <span class="px-2 py-0.5 bg-violet-500/10 text-violet-400 text-[9px] sm:text-[10px] font-semibold rounded-full uppercase tracking-wider border border-violet-500/20">Cilacap</span>
+          </div>
+          <h3 class="text-base sm:text-lg font-medium tracking-tight text-zinc-100">Diploma III Teknik Informatika</h3>
+          <p class="text-zinc-400 text-[11px] sm:text-xs mt-0.5">Politeknik Negeri Cilacap</p>
+          <ul class="mt-2.5 sm:mt-3 space-y-1.5 sm:space-y-2 tl-list">
+            <li class="li flex gap-2 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="check" class="w-3 h-3 text-fuchsia-500/60 mt-0.5 shrink-0"></i>Mempelajari pengembangan perangkat lunak, pengembangan aplikasi web dan mobile, basis data, jaringan komputer, UI/UX Design, sistem informasi, algoritma dan pemrograman, serta rekayasa perangkat lunak</li>
+            <li class="li flex gap-2 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="check" class="w-3 h-3 text-fuchsia-500/60 mt-0.5 shrink-0"></i>Mengerjakan berbagai proyek pengembangan aplikasi menggunakan Laravel, Flutter, PHP, HTML, CSS, JavaScript, MySQL, dan PostgreSQL</li>
+            <li class="li flex gap-2 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="check" class="w-3 h-3 text-fuchsia-500/60 mt-0.5 shrink-0"></i>Mengembangkan kemampuan analisis, pemecahan masalah, kerja sama tim, manajemen proyek, dan penyusunan dokumentasi teknis</li>
+          </ul>
+        </div>
+
+        <div class="a r d2 relative pl-6 sm:pl-9 pb-8 sm:pb-12 tl-item">
+          <div class="absolute left-0 top-0 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-sky-500 -translate-x-[4.5px] sm:-translate-x-[6.5px] td tl-dot"></div>
+          <div class="absolute left-[2.5px] sm:left-[3px] top-4 bottom-0 w-px bg-gradient-to-b from-sky-500/30 to-transparent"></div>
+          <div class="flex flex-wrap items-center gap-2 mb-1.5 sm:mb-2">
+            <span class="text-[10px] sm:text-xs font-semibold text-zinc-400 uppercase tracking-wider">2020 – 2023</span>
+            <span class="px-2 py-0.5 bg-sky-500/10 text-sky-400 text-[9px] sm:text-[10px] font-semibold rounded-full uppercase tracking-wider border border-sky-500/20">Pendidikan</span>
+            <span class="px-2 py-0.5 bg-blue-500/10 text-blue-400 text-[9px] sm:text-[10px] font-semibold rounded-full uppercase tracking-wider border border-blue-500/20">Sokaraja</span>
+          </div>
+          <h3 class="text-base sm:text-lg font-medium tracking-tight text-zinc-100">MIPA — SMA Negeri 1 Sokaraja</h3>
+          <p class="text-zinc-400 text-[11px] sm:text-xs mt-0.5">Banyumas, Sokaraja</p>
+          <ul class="mt-2.5 sm:mt-3 space-y-1.5 sm:space-y-2 tl-list">
+            <li class="li flex gap-2 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="check" class="w-3 h-3 text-sky-500/60 mt-0.5 shrink-0"></i>Mempelajari matematika, fisika, kimia, biologi, dan dasar-dasar teknologi informasi</li>
+            <li class="li flex gap-2 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="check" class="w-3 h-3 text-sky-500/60 mt-0.5 shrink-0"></i>Mengembangkan kemampuan berpikir logis, analitis, komunikasi, serta kerja sama melalui kegiatan akademik dan organisasi</li>
+          </ul>
+        </div>
+
+        <div class="a r d3 relative pl-6 sm:pl-9 pb-2 tl-item">
+          <div class="absolute left-0 top-0 w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-lime-500 -translate-x-[4.5px] sm:-translate-x-[6.5px] td tl-dot"></div>
+          <div class="flex flex-wrap items-center gap-2 mb-1.5 sm:mb-2">
+            <span class="text-[10px] sm:text-xs font-semibold text-zinc-400 uppercase tracking-wider">2023 – 2025</span>
+            <span class="px-2 py-0.5 bg-lime-500/10 text-lime-400 text-[9px] sm:text-[10px] font-semibold rounded-full uppercase tracking-wider border border-lime-500/20">Organisasi</span>
+          </div>
+          <h3 class="text-base sm:text-lg font-medium tracking-tight text-zinc-100">Pengalaman Organisasi</h3>
+
+          <div class="mt-3 p-3.5 sm:p-4 rounded-xl glass hover:border-emerald-500/30 glow-card">
+            <div class="glow-bg" style="background:rgba(52,211,153,.05)"></div>
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <div class="w-6 h-6 rounded-md bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center shadow-lg shadow-emerald-500/15"><i data-lucide="monitor" class="w-3 h-3 text-zinc-950"></i></div>
+              <h4 class="text-xs sm:text-sm font-semibold text-zinc-100">Teaching Factory (TEFA)</h4>
+              <span class="text-[9px] sm:text-[10px] text-emerald-400/80 font-medium">2024 – 2025</span>
+              <span class="px-1.5 py-0.5 bg-emerald-500/10 text-emerald-400 text-[8px] sm:text-[9px] font-medium rounded border border-emerald-500/20">Politeknik Negeri Cilacap</span>
+            </div>
+            <ul class="space-y-1.5 tl-list">
+              <li class="li flex gap-1.5 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="chevron-right" class="w-2.5 h-2.5 text-emerald-500/60 mt-0.5 shrink-0"></i>Berkontribusi dalam pengembangan website RSI Fatimah Cilacap menggunakan WordPress</li>
+              <li class="li flex gap-1.5 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="chevron-right" class="w-2.5 h-2.5 text-emerald-500/60 mt-0.5 shrink-0"></i>Melakukan pengelolaan dan pembaruan konten website secara berkala</li>
+              <li class="li flex gap-1.5 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="chevron-right" class="w-2.5 h-2.5 text-emerald-500/60 mt-0.5 shrink-0"></i>Menyesuaikan tampilan dan struktur halaman sesuai kebutuhan pengguna</li>
+              <li class="li flex gap-1.5 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="chevron-right" class="w-2.5 h-2.5 text-emerald-500/60 mt-0.5 shrink-0"></i>Berkolaborasi dalam proses pengembangan dan pengujian website</li>
+              <li class="li flex gap-1.5 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="chevron-right" class="w-2.5 h-2.5 text-emerald-500/60 mt-0.5 shrink-0"></i>Memastikan website berjalan dengan baik dan mudah diakses pengguna</li>
+            </ul>
+          </div>
+
+          <div class="mt-2.5 p-3.5 sm:p-4 rounded-xl glass hover:border-orange-500/30 glow-card">
+            <div class="glow-bg" style="background:rgba(249,115,22,.05)"></div>
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <div class="w-6 h-6 rounded-md bg-gradient-to-br from-orange-400 to-rose-500 flex items-center justify-center shadow-lg shadow-orange-500/15"><i data-lucide="scale" class="w-3 h-3 text-white"></i></div>
+              <h4 class="text-xs sm:text-sm font-semibold text-zinc-100">BPM — Komisi UU & Perlindungan Hukum</h4>
+              <span class="text-[9px] sm:text-[10px] text-orange-400/80 font-medium">2024 – 2025</span>
+              <span class="px-1.5 py-0.5 bg-orange-500/10 text-orange-400 text-[8px] sm:text-[9px] font-medium rounded border border-orange-500/20">Politeknik Negeri Cilacap</span>
+            </div>
+            <ul class="space-y-1.5 tl-list">
+              <li class="li flex gap-1.5 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="chevron-right" class="w-2.5 h-2.5 text-orange-500/60 mt-0.5 shrink-0"></i>Berpartisipasi dalam penyusunan dan pembaruan AD/ART organisasi</li>
+              <li class="li flex gap-1.5 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="chevron-right" class="w-2.5 h-2.5 text-orange-500/60 mt-0.5 shrink-0"></i>Menjadi panitia pelaksana sidang organisasi kemahasiswaan</li>
+              <li class="li flex gap-1.5 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="chevron-right" class="w-2.5 h-2.5 text-orange-500/60 mt-0.5 shrink-0"></i>Berkontribusi dalam penyusunan dan pembahasan peraturan organisasi</li>
+              <li class="li flex gap-1.5 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="chevron-right" class="w-2.5 h-2.5 text-orange-500/60 mt-0.5 shrink-0"></i>Bekerja sama dengan anggota komisi dalam mendukung tata kelola organisasi yang tertib dan sesuai peraturan</li>
+            </ul>
+          </div>
+
+          <div class="mt-2.5 p-3.5 sm:p-4 rounded-xl glass hover:border-violet-500/30 glow-card">
+            <div class="glow-bg" style="background:rgba(139,92,246,.05)"></div>
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <div class="w-6 h-6 rounded-md bg-gradient-to-br from-violet-400 to-indigo-500 flex items-center justify-center shadow-lg shadow-violet-500/15"><i data-lucide="megaphone" class="w-3 h-3 text-white"></i></div>
+              <h4 class="text-xs sm:text-sm font-semibold text-zinc-100">UKM Programmer — Divisi Humas</h4>
+              <span class="text-[9px] sm:text-[10px] text-violet-400/80 font-medium">2023 – 2025</span>
+              <span class="px-1.5 py-0.5 bg-violet-500/10 text-violet-400 text-[8px] sm:text-[9px] font-medium rounded border border-violet-500/20">Politeknik Negeri Cilacap</span>
+            </div>
+            <ul class="space-y-1.5 tl-list">
+              <li class="li flex gap-1.5 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="chevron-right" class="w-2.5 h-2.5 text-violet-500/60 mt-0.5 shrink-0"></i>Membantu menyebarluaskan informasi kegiatan melalui media sosial dan media komunikasi</li>
+              <li class="li flex gap-1.5 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="chevron-right" class="w-2.5 h-2.5 text-violet-500/60 mt-0.5 shrink-0"></i>Berkoordinasi dengan anggota serta pihak eksternal untuk mendukung pelaksanaan kegiatan</li>
+              <li class="li flex gap-1.5 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="chevron-right" class="w-2.5 h-2.5 text-violet-500/60 mt-0.5 shrink-0"></i>Membangun komunikasi yang baik dengan mahasiswa dan peserta kegiatan</li>
+            </ul>
+          </div>
+
+          <div class="mt-3 p-3.5 sm:p-4 rounded-xl glass hover:border-pink-500/30 glow-card">
+            <div class="glow-bg" style="background:rgba(211, 52, 150, 0.05)"></div>
+            <div class="flex flex-wrap items-center gap-2 mb-2">
+              <div class="w-6 h-6 rounded-md bg-gradient-to-br from-pink-400 to-pink-500 flex items-center justify-center shadow-lg shadow-pink-500/15"><i data-lucide="monitor" class="w-3 h-3 text-zinc-950"></i></div>
+              <h4 class="text-xs sm:text-sm font-semibold text-zinc-100">Runner Up 1 Duta Kampus</h4>
+              <span class="text-[9px] sm:text-[10px] text-pink-400/80 font-medium">2024 – 2025</span>
+              <span class="px-1.5 py-0.5 bg-pink-500/10 text-pink-400 text-[8px] sm:text-[9px] font-medium rounded border border-emerald-500/20">Politeknik Negeri Cilacap</span>
+            </div>
+            <ul class="space-y-1.5 tl-list">
+              <li class="li flex gap-1.5 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="chevron-right" class="w-2.5 h-2.5 text-emerald-500/60 mt-0.5 shrink-0"></i>Menyampaikan informasi kepada calon mahasiswa dan masyarakat sebagai representasi kampus</li>
+              <li class="li flex gap-1.5 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="chevron-right" class="w-2.5 h-2.5 text-emerald-500/60 mt-0.5 shrink-0"></i>Mengembangkan kemampuan komunikasi, public speaking, kepemimpinan, dan interpersonal.</li>
+              <li class="li flex gap-1.5 text-[11px] sm:text-xs text-zinc-300 leading-relaxed"><i data-lucide="chevron-right" class="w-2.5 h-2.5 text-emerald-500/60 mt-0.5 shrink-0"></i>Berkolaborasi dengan panitia, dosen, dan sivitas akademika dalam mendukung berbagai kegiatan kampus</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS (SLIDER) -->
+<section id="projects" class="sec py-12 sm:py-16 lg:py-24" data-theme="orange">
+  <div class="sec-decor">
+    <div class="blob blob-m2 blob-lg blob-themed hide-mobile" style="top:10%;right:-12%;animation-delay:-6s"></div>
+    <div class="aurora aurora-themed hide-mobile" style="top:30%;left:-50%;animation-duration:14s;animation-delay:-2s"></div>
+    <div class="rglow rglow-lg" style="top:50%;left:50%;transform:translate(-50%,-50%)"></div>
+  </div>
+
+  <div class="sec-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center a">
+      <span class="text-[10px] font-semibold text-rose-400 uppercase tracking-[.12em]">Proyek</span>
+      <h2 class="mt-2 sm:mt-3 text-xl sm:text-2xl md:text-3xl font-medium tracking-tight text-zinc-100">Project</h2>
+      <div class="line-accent mt-4 mx-auto w-16" style="--lc1:#fb7185;--lc2:#f59e0b"></div>
+    </div>
+
+    <div class="slider-wrapper mt-8 sm:mt-12 a">
+      <div class="slider-track" id="projectSlider">
+        
+        <!-- Project Card 1 -->
+        <div class="slide-card pc glow-card group rounded-xl sm:rounded-2xl overflow-hidden glass hover:border-orange-500/30 flex flex-col">
+          <div class="glow-bg" style="background:rgba(249,115,22,.06)"></div>
+          <a href="https://github.com/andinardelinaa/sistem-informasi-reservasi-rekam-medis.git" target="_blank" class="relative aspect-video bg-zinc-950/90 overflow-hidden flex items-center justify-center border-b border-zinc-700/30 block">
+            <img src="img/sistem_reservasi.png" alt="Sistem Reservasi" class="w-full h-full object-contain p-2 brightness-90 group-hover:brightness-110 group-hover:scale-[1.02] transition-all duration-500">
+            <div class="ov absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-3 sm:p-4 pointer-events-none">
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 bg-orange-500/20 backdrop-blur-md text-orange-300 text-[9px] font-semibold rounded-full border border-orange-500/20">Laravel</span>
+                <span class="px-2 py-0.5 bg-emerald-500/20 backdrop-blur-md text-emerald-300 text-[9px] font-semibold rounded-full border border-emerald-500/20">MySQL</span>
+                <span class="px-2 py-0.5 bg-sky-500/20 backdrop-blur-md text-sky-300 text-[9px] font-semibold rounded-full border border-sky-500/20">Tailwind</span>
+              </div>
+            </div>
+          </a>
+          <div class="p-4 sm:p-5 flex flex-col flex-grow">
+            <div class="flex items-center gap-1.5 mb-1"><i data-lucide="globe" class="w-3 h-3 text-orange-400/60"></i><span class="text-[9px] uppercase tracking-widest text-zinc-400 font-semibold">Full Stack Web</span></div>
+            <h3 class="text-sm sm:text-base font-medium tracking-tight text-zinc-100">Sistem Informasi Reservasi & Rekam Medis</h3>
+            <p class="mt-1 text-[11px] sm:text-xs text-zinc-300 leading-relaxed flex-grow">Mengembangkan sistem informasi reservasi dan rekam medis untuk klinik gigi berbasis web. Membangun fitur reservasi online, antrean pasien, jadwal dokter, rekam medis, artikel kesehatan, dan dashboard admin.</p>
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">Laravel</span>
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">PHP</span>
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">MySQL</span>
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">Tailwind</span>
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">JavaScript</span>
+            </div>
+            <a href="https://github.com/andinardelinaa/sistem-informasi-reservasi-rekam-medis" target="_blank" class="mt-4 inline-flex items-center justify-center gap-1.5 w-full px-3 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-[11px] font-semibold text-zinc-300 hover:bg-amber-500/10 hover:text-amber-400 hover:border-amber-500/40 transition-all duration-300">
+              <i data-lucide="github" class="w-3.5 h-3.5"></i> Lihat di GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- Project Card 2 -->
+        <div class="slide-card pc glow-card group rounded-xl sm:rounded-2xl overflow-hidden glass hover:border-fuchsia-500/30 flex flex-col">
+          <div class="glow-bg" style="background:rgba(232,121,249,.06)"></div>
+          <a href="https://github.com/andinardelinaa" target="_blank" class="relative aspect-video bg-zinc-950/90 overflow-hidden flex items-center justify-center border-b border-zinc-700/30 block">
+            <img src="img/pengajuan_magang_web.png" alt="Sistem Pengajuan Magang Berbasis Website" class="w-full h-full object-contain p-2 brightness-90 group-hover:brightness-110 group-hover:scale-[1.02] transition-all duration-500">
+            <div class="ov absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-3 sm:p-4 pointer-events-none">
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 bg-rose-500/20 backdrop-blur-md text-rose-300 text-[9px] font-semibold rounded-full border border-rose-500/20">Laravel</span>
+                <span class="px-2 py-0.5 bg-fuchsia-500/20 backdrop-blur-md text-fuchsia-300 text-[9px] font-semibold rounded-full border border-fuchsia-500/20">Flutter</span>
+                <span class="px-2 py-0.5 bg-indigo-500/20 backdrop-blur-md text-indigo-300 text-[9px] font-semibold rounded-full border border-indigo-500/20">PostgreSQL</span>
+              </div>
+            </div>
+          </a>
+          <div class="p-4 sm:p-5 flex flex-col flex-grow">
+            <div class="flex items-center gap-1.5 mb-1"><i data-lucide="smartphone" class="w-3 h-3 text-fuchsia-400/60"></i><span class="text-[9px] uppercase tracking-widest text-zinc-400 font-semibold">Full Stack Web </span></div>
+            <h3 class="text-sm sm:text-base font-medium tracking-tight text-zinc-100">Sistem Pengajuan Magang Diskominfo</h3>
+            <p class="mt-1 text-[11px] sm:text-xs text-zinc-300 leading-relaxed flex-grow">Mengembangkan aplikasi web dan mobile untuk proses pengajuan magang. Berkontribusi pada pengembangan backend, frontend, dan deployment aplikasi.</p>
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">Laravel</span>
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">PostgreSQL</span>
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">PHP</span>
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">Git</span>
+            </div>
+            <a href="https://github.com/andinardelinaa" target="_blank" class="mt-4 inline-flex items-center justify-center gap-1.5 w-full px-3 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-[11px] font-semibold text-zinc-300 hover:bg-fuchsia-500/10 hover:text-fuchsia-400 hover:border-fuchsia-500/40 transition-all duration-300">
+              <i data-lucide="github" class="w-3.5 h-3.5"></i> Lihat di GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- Project Card 3 -->
+        <div class="slide-card pc glow-card group rounded-xl sm:rounded-2xl overflow-hidden glass hover:border-orange-500/30 flex flex-col">
+          <div class="glow-bg" style="background:rgba(249,115,22,.06)"></div>
+          <a href="https://github.com/andinardelinaa" target="_blank" class="relative aspect-video bg-zinc-950/90 overflow-hidden flex items-center justify-center border-b border-zinc-700/30 block">
+            <img src="img/pengajuan_magang_mobile.png" alt="Sistem Pengajuan Mobile" class="w-full h-full object-contain p-2 brightness-90 group-hover:brightness-110 group-hover:scale-[1.02] transition-all duration-500">
+            <div class="ov absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-3 sm:p-4 pointer-events-none">
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 bg-orange-500/20 backdrop-blur-md text-orange-300 text-[9px] font-semibold rounded-full border border-orange-500/20">Flutter</span>
+                <span class="px-2 py-0.5 bg-emerald-500/20 backdrop-blur-md text-emerald-300 text-[9px] font-semibold rounded-full border border-emerald-500/20">PostgreSQL</span>
+                <span class="px-2 py-0.5 bg-sky-500/20 backdrop-blur-md text-sky-300 text-[9px] font-semibold rounded-full border border-sky-500/20">Rest API</span>
+              </div>
+            </div>
+          </a>
+          <div class="p-4 sm:p-5 flex flex-col flex-grow">
+            <div class="flex items-center gap-1.5 mb-1"><i data-lucide="globe" class="w-3 h-3 text-orange-400/60"></i><span class="text-[9px] uppercase tracking-widest text-zinc-400 font-semibold">Mobile</span></div>
+            <h3 class="text-sm sm:text-base font-medium tracking-tight text-zinc-100">Sistem Pengajuan Magang Dinkominfo Banyumas Berbasis Mobile</h3>
+            <p class="mt-1 text-[11px] sm:text-xs text-zinc-300 leading-relaxed flex-grow">Aplikasi mobile yang dirancang untuk mendigitalisasi proses pengajuan magang di Dinas Komunikasi dan Informatika Kabupaten Banyumas. Fitur utama meliputi pendaftaran magang, unggah berkas, pelacakan status pengajuan, serta notifikasi informasi kepada calon peserta magang. Pengembangan dilakukan menggunakan Flutter dengan desain antarmuka yang sederhana, responsif, dan mudah digunakan.</p>
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">Flutter</span>
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">PHP</span>
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">PostgreSQL</span>
+            </div>
+            <a href="https://github.com/andinardelinaa" target="_blank" class="mt-4 inline-flex items-center justify-center gap-1.5 w-full px-3 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-[11px] font-semibold text-zinc-300 hover:bg-amber-500/10 hover:text-amber-400 hover:border-amber-500/40 transition-all duration-300">
+              <i data-lucide="github" class="w-3.5 h-3.5"></i> Lihat di GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- Project Card 4 -->
+        <div class="slide-card pc glow-card group rounded-xl sm:rounded-2xl overflow-hidden glass hover:border-orange-500/30 flex flex-col">
+          <div class="glow-bg" style="background:rgba(249,115,22,.06)"></div>
+          <a href="https://github.com/andinardelinaa" target="_blank" class="relative aspect-video bg-zinc-950/90 overflow-hidden flex items-center justify-center border-b border-zinc-700/30 block">
+            <img src="img/redesign_autentifikasi_wifi_kominfo.png" alt="Redesign Autentifikasi WIfi" class="w-full h-full object-contain p-2 brightness-90 group-hover:brightness-110 group-hover:scale-[1.02] transition-all duration-500">
+            <div class="ov absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-3 sm:p-4 pointer-events-none">
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 bg-orange-500/20 backdrop-blur-md text-orange-300 text-[9px] font-semibold rounded-full border border-orange-500/20">HTML</span>
+                <span class="px-2 py-0.5 bg-emerald-500/20 backdrop-blur-md text-emerald-300 text-[9px] font-semibold rounded-full border border-emerald-500/20">CSS</span>
+              </div>
+            </div>
+          </a>
+          <div class="p-4 sm:p-5 flex flex-col flex-grow">
+            <div class="flex items-center gap-1.5 mb-1"><i data-lucide="globe" class="w-3 h-3 text-orange-400/60"></i><span class="text-[9px] uppercase tracking-widest text-zinc-400 font-semibold">Web</span></div>
+            <h3 class="text-sm sm:text-base font-medium tracking-tight text-zinc-100">Redesign Autentifikasi Wifi DInkominfo Banyumas</h3>
+            <p class="mt-1 text-[11px] sm:text-xs text-zinc-300 leading-relaxed flex-grow">Redesign antarmuka autentikasi WiFi Dinas Komunikasi dan Informatika Kabupaten Banyumas dengan tampilan yang lebih modern, responsif, dan mudah digunakan. Desain difokuskan pada peningkatan pengalaman pengguna melalui navigasi yang sederhana dan visual yang konsisten.</p>
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">HTML</span>
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">CSS</span>
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">JavaScript</span>
+            </div>
+            <a href="https://github.com/andinardelinaa" target="_blank" class="mt-4 inline-flex items-center justify-center gap-1.5 w-full px-3 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-[11px] font-semibold text-zinc-300 hover:bg-amber-500/10 hover:text-amber-400 hover:border-amber-500/40 transition-all duration-300">
+              <i data-lucide="github" class="w-3.5 h-3.5"></i> Lihat di GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- Project Card 5 -->
+        <div class="slide-card pc glow-card group rounded-xl sm:rounded-2xl overflow-hidden glass hover:border-fuchsia-500/30 flex flex-col">
+          <div class="glow-bg" style="background:rgba(232,121,249,.06)"></div>
+          <a href="https://github.com/andinardelinaa" target="_blank" class="relative aspect-video bg-zinc-950/90 overflow-hidden flex items-center justify-center border-b border-zinc-700/30 block">
+            <img src="img/landing_page_dinkominfo.png" alt="Website DInkominfo" class="w-full h-full object-contain p-2 brightness-90 group-hover:brightness-110 group-hover:scale-[1.02] transition-all duration-500">
+            <div class="ov absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-3 sm:p-4 pointer-events-none">
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 bg-rose-500/20 backdrop-blur-md text-rose-300 text-[9px] font-semibold rounded-full border border-rose-500/20">HTML</span>
+                <span class="px-2 py-0.5 bg-fuchsia-500/20 backdrop-blur-md text-fuchsia-300 text-[9px] font-semibold rounded-full border border-fuchsia-500/20">CSS</span>
+                <span class="px-2 py-0.5 bg-indigo-500/20 backdrop-blur-md text-indigo-300 text-[9px] font-semibold rounded-full border border-indigo-500/20">Java Script</span>
+              </div>
+            </div>
+          </a>
+          <div class="p-4 sm:p-5 flex flex-col flex-grow">
+            <div class="flex items-center gap-1.5 mb-1"><i data-lucide="smartphone" class="w-3 h-3 text-fuchsia-400/60"></i><span class="text-[9px] uppercase tracking-widest text-zinc-400 font-semibold">Website </span></div>
+            <h3 class="text-sm sm:text-base font-medium tracking-tight text-zinc-100">Website DInas Komunikasi dan INformatika Kabupaten Banyumas</h3>
+            <p class="mt-1 text-[11px] sm:text-xs text-zinc-300 leading-relaxed flex-grow">Berpartisipasi dalam pengembangan landing page Website Dinas Komunikasi dan Informatika Kabupaten Banyumas dengan fokus pada implementasi antarmuka yang responsif dan ramah pengguna. Website dirancang untuk menyampaikan informasi instansi secara jelas, menarik, dan mudah diakses di berbagai perangkat.</p>
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">HTML</span>
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">CSS</span>
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">Java Script</span>
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">Git</span>
+            </div>
+            <a href="https://github.com/andinardelinaa" target="_blank" class="mt-4 inline-flex items-center justify-center gap-1.5 w-full px-3 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-[11px] font-semibold text-zinc-300 hover:bg-fuchsia-500/10 hover:text-fuchsia-400 hover:border-fuchsia-500/40 transition-all duration-300">
+              <i data-lucide="github" class="w-3.5 h-3.5"></i> Lihat di GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="slide-card pc glow-card group rounded-xl sm:rounded-2xl overflow-hidden glass hover:border-fuchsia-500/30 flex flex-col">
+          <div class="glow-bg" style="background:rgba(232,121,249,.06)"></div>
+          <a href="https://github.com/andinardelinaa" target="_blank" class="relative aspect-video bg-zinc-950/90 overflow-hidden flex items-center justify-center border-b border-zinc-700/30 block">
+            <img src="img/sistem_beasiswa.png" alt="Sistem beasiswa" class="w-full h-full object-contain p-2 brightness-90 group-hover:brightness-110 group-hover:scale-[1.02] transition-all duration-500">
+            <div class="ov absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-3 sm:p-4 pointer-events-none">
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 bg-rose-500/20 backdrop-blur-md text-rose-300 text-[9px] font-semibold rounded-full border border-rose-500/20">Bootstrap</span>
+                <span class="px-2 py-0.5 bg-indigo-500/20 backdrop-blur-md text-indigo-300 text-[9px] font-semibold rounded-full border border-indigo-500/20">MySQL</span>
+              </div>
+            </div>
+          </a>
+          <div class="p-4 sm:p-5 flex flex-col flex-grow">
+            <div class="flex items-center gap-1.5 mb-1"><i data-lucide="smartphone" class="w-3 h-3 text-fuchsia-400/60"></i><span class="text-[9px] uppercase tracking-widest text-zinc-400 font-semibold">Website </span></div>
+            <h3 class="text-sm sm:text-base font-medium tracking-tight text-zinc-100">Sistem Pengajuan Beasiswa</h3>
+            <p class="mt-1 text-[11px] sm:text-xs text-zinc-300 leading-relaxed flex-grow">Aplikasi berbasis web yang dibuat sebagai tugas praktikum untuk mensimulasikan proses pengajuan beasiswa secara digital, mulai dari input data mahasiswa hingga pengelolaan data pengajuan.</p>
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">Bootstrap</span>
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">MySQL</span>
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">Git</span>
+            </div>
+            <a href="https://github.com/andinardelinaa" target="_blank" class="mt-4 inline-flex items-center justify-center gap-1.5 w-full px-3 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-[11px] font-semibold text-zinc-300 hover:bg-fuchsia-500/10 hover:text-fuchsia-400 hover:border-fuchsia-500/40 transition-all duration-300">
+              <i data-lucide="github" class="w-3.5 h-3.5"></i> Lihat di GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="slide-card pc glow-card group rounded-xl sm:rounded-2xl overflow-hidden glass hover:border-orange-500/30 flex flex-col">
+          <div class="glow-bg" style="background:rgba(249,115,22,.06)"></div>
+          <a href="https://github.com/andinardelinaa" target="_blank" class="relative aspect-video bg-zinc-950/90 overflow-hidden flex items-center justify-center border-b border-zinc-700/30 block">
+            <img src="img/sistem_kelola_data.png" alt="Sistem Kelola Data" class="w-full h-full object-contain p-2 brightness-90 group-hover:brightness-110 group-hover:scale-[1.02] transition-all duration-500">
+            <div class="ov absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-3 sm:p-4 pointer-events-none">
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 bg-orange-500/20 backdrop-blur-md text-orange-300 text-[9px] font-semibold rounded-full border border-orange-500/20">Tailwind</span>
+                <span class="px-2 py-0.5 bg-emerald-500/20 backdrop-blur-md text-emerald-300 text-[9px] font-semibold rounded-full border border-emerald-500/20">MySQL</span>
+              </div>
+            </div>
+          </a>
+          <div class="p-4 sm:p-5 flex flex-col flex-grow">
+            <div class="flex items-center gap-1.5 mb-1"><i data-lucide="globe" class="w-3 h-3 text-orange-400/60"></i><span class="text-[9px] uppercase tracking-widest text-zinc-400 font-semibold">Website</span></div>
+            <h3 class="text-sm sm:text-base font-medium tracking-tight text-zinc-100">Sistem Kelola data Dosen dan Mahasiswa</h3>
+            <p class="mt-1 text-[11px] sm:text-xs text-zinc-300 leading-relaxed flex-grow">Aplikasi berbasis web yang dibuat sebagai tugas praktikum untuk mengelola data dosen dan mahasiswa. Proyek ini mengimplementasikan operasi CRUD serta penyimpanan data menggunakan basis data relasional.</p>
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">Tailwind</span>
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">MySQL</span>
+            </div>
+            <a href="https://github.com/andinardelinaa" target="_blank" class="mt-4 inline-flex items-center justify-center gap-1.5 w-full px-3 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-[11px] font-semibold text-zinc-300 hover:bg-amber-500/10 hover:text-amber-400 hover:border-amber-500/40 transition-all duration-300">
+              <i data-lucide="github" class="w-3.5 h-3.5"></i> Lihat di GitHub
+            </a>
+          </div>
+        </div>
+
+        <div class="slide-card pc glow-card group rounded-xl sm:rounded-2xl overflow-hidden glass hover:border-orange-500/30 flex flex-col">
+          <div class="glow-bg" style="background:rgba(249,115,22,.06)"></div>
+          <a href="https://github.com/andinardelinaa" target="_blank" class="relative aspect-video bg-zinc-950/90 overflow-hidden flex items-center justify-center border-b border-zinc-700/30 block">
+            <img src="img/sistem_pencatatan_keuangan.png" alt="Sistem Pencacatan Keuangan" class="w-full h-full object-contain p-2 brightness-90 group-hover:brightness-110 group-hover:scale-[1.02] transition-all duration-500">
+            <div class="ov absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent flex items-end p-3 sm:p-4 pointer-events-none">
+              <div class="flex flex-wrap gap-1.5">
+                <span class="px-2 py-0.5 bg-orange-500/20 backdrop-blur-md text-orange-300 text-[9px] font-semibold rounded-full border border-orange-500/20">C#</span>
+                <span class="px-2 py-0.5 bg-emerald-500/20 backdrop-blur-md text-emerald-300 text-[9px] font-semibold rounded-full border border-emerald-500/20">OOP</span>
+              </div>
+            </div>
+          </a>
+          <div class="p-4 sm:p-5 flex flex-col flex-grow">
+            <div class="flex items-center gap-1.5 mb-1"><i data-lucide="globe" class="w-3 h-3 text-orange-400/60"></i><span class="text-[9px] uppercase tracking-widest text-zinc-400 font-semibold">Website</span></div>
+            <h3 class="text-sm sm:text-base font-medium tracking-tight text-zinc-100">Sistem Pencatatan Keuangan UMKM</h3>
+            <p class="mt-1 text-[11px] sm:text-xs text-zinc-300 leading-relaxed flex-grow">Aplikasi desktop berbasis C# yang dibuat sebagai tugas praktikum untuk mengelola data keuangan UMKM. Sistem menyediakan fitur pencatatan transaksi, pengelolaan data keuangan, dan penyajian laporan sederhana.</p>
+            <div class="mt-3 flex flex-wrap gap-1.5">
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">C#</span>
+              <span class="px-2 py-0.5 bg-zinc-800/50 text-zinc-300 text-[9px] font-medium rounded-md border border-zinc-700/50">OOP</span>
+            </div>
+            <a href="https://github.com/andinardelinaa" target="_blank" class="mt-4 inline-flex items-center justify-center gap-1.5 w-full px-3 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-[11px] font-semibold text-zinc-300 hover:bg-amber-500/10 hover:text-amber-400 hover:border-amber-500/40 transition-all duration-300">
+              <i data-lucide="github" class="w-3.5 h-3.5"></i> Lihat di GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- Video YouTube Card -->
+        <div class="slide-card pc glow-card group rounded-xl sm:rounded-2xl overflow-hidden glass hover:border-rose-500/30 flex flex-col">
+          <div class="glow-bg" style="background:rgba(244,63,94,.06)"></div>
+          <a href="https://youtu.be/zwAL-mcjDvM" target="_blank" class="relative aspect-video bg-zinc-950/90 overflow-hidden flex items-center justify-center border-b border-zinc-700/30 block">
+            <img src="https://img.youtube.com/vi/zwAL-mcjDvM/hqdefault.jpg" alt="YouTube Video" class="w-full h-full object-cover brightness-90 group-hover:brightness-110 transition-all duration-500">
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div class="w-14 h-14 rounded-full bg-red-600/90 flex items-center justify-center backdrop-blur-sm shadow-xl group-hover:scale-110 transition-all duration-300">
+                <i data-lucide="play" class="w-6 h-6 text-white ml-1"></i>
+              </div>
+            </div>
+          </a>
+          <div class="p-4 sm:p-5 flex flex-col flex-grow">
+            <div class="flex items-center gap-1.5 mb-1"><i data-lucide="youtube" class="w-3 h-3 text-red-500/60"></i><span class="text-[9px] uppercase tracking-widest text-zinc-400 font-semibold">Profil Kampus</span></div>
+            <h3 class="text-sm sm:text-base font-medium tracking-tight text-zinc-100">Profil Kampus</h3>
+            <p class="mt-1 text-[11px] sm:text-xs text-zinc-300 leading-relaxed flex-grow">Berpartisipasi dalam pembuatan video profil kampus dengan berkontribusi pada pengambilan dan penyusunan cuplikan video pendek untuk mendukung media promosi kampus.</p>
+            <a href="https://youtu.be/zwAL-mcjDvM" target="_blank" class="mt-4 inline-flex items-center justify-center gap-1.5 w-full px-3 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-[11px] font-semibold text-zinc-300 hover:bg-red-500/10 hover:text-red-400 hover:border-red-500/40 transition-all duration-300">
+              <i data-lucide="play-circle" class="w-3.5 h-3.5"></i> Tonton di YouTube
+            </a>
+          </div>
+        </div>
+
+        <!-- Instagram Reels Card -->
+        <div class="slide-card pc glow-card group rounded-xl sm:rounded-2xl overflow-hidden glass hover:border-fuchsia-500/30 flex flex-col">
+          <div class="glow-bg" style="background:rgba(232,121,249,.06)"></div>
+          <a href="https://www.instagram.com/reel/DG7yj-kvTWE/?igsh=MTRyYjE0emczMWpiMw==" target="_blank" class="relative aspect-video bg-zinc-950/90 overflow-hidden flex items-center justify-center border-b border-zinc-700/30 block">
+            <img src="img/reels_trpl.jpeg" alt="Instagram Reels" class="w-full h-full object-cover brightness-90 group-hover:brightness-110 transition-all duration-500">
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <div class="w-14 h-14 rounded-full bg-fuchsia-600/90 flex items-center justify-center backdrop-blur-sm shadow-xl group-hover:scale-110 transition-all duration-300">
+                <i data-lucide="instagram" class="w-6 h-6 text-white"></i>
+              </div>
+            </div>
+          </a>
+          <div class="p-4 sm:p-5 flex flex-col flex-grow">
+            <div class="flex items-center gap-1.5 mb-1"><i data-lucide="instagram" class="w-3 h-3 text-fuchsia-500/60"></i><span class="text-[9px] uppercase tracking-widest text-zinc-400 font-semibold">Social Media</span></div>
+            <h3 class="text-sm sm:text-base font-medium tracking-tight text-zinc-100">Video Profil Program Studi TRPL</h3>
+            <p class="mt-1 text-[11px] sm:text-xs text-zinc-300 leading-relaxed flex-grow">Berperan sebagai Talent dan Voice Over Talent dalam video profil Program Studi Teknologi Rekayasa Perangkat Lunak untuk mendukung kegiatan promosi dan pengenalan program studi.</p>
+            <a href="https://www.instagram.com/reel/DG7yj-kvTWE/?igsh=MTRyYjE0emczMWpiMw==" target="_blank" class="mt-4 inline-flex items-center justify-center gap-1.5 w-full px-3 py-2.5 rounded-lg bg-zinc-800/50 border border-zinc-700/50 text-[11px] font-semibold text-zinc-300 hover:bg-fuchsia-500/10 hover:text-fuchsia-400 hover:border-fuchsia-500/40 transition-all duration-300">
+              <i data-lucide="instagram" class="w-3.5 h-3.5"></i> Tonton Reels
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="flex justify-center gap-4 mt-6">
+        <button id="prevProject" class="slider-btn p-3 rounded-full border border-zinc-700 text-zinc-300 hover:border-amber-500 hover:text-amber-400 transition-all">
+          <i data-lucide="arrow-left" class="w-5 h-5"></i>
+        </button>
+        <button id="nextProject" class="slider-btn p-3 rounded-full border border-zinc-700 text-zinc-300 hover:border-amber-500 hover:text-amber-400 transition-all">
+          <i data-lucide="arrow-right" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- CERTIFICATIONS -->
+<section id="certifications" class="sec py-12 sm:py-16 lg:py-24" data-theme="violet">
+  <div class="sec-decor">
+    <div class="blob blob-m1 blob-md blob-themed hide-mobile" style="top:-10%;right:-8%;animation-delay:-5s"></div>
+    <div class="spark" style="top:22%;left:22%;background:#38bdf8;animation-delay:1s"></div>
+    <div class="spark spark-themed" style="bottom:28%;right:20%;animation-delay:2s"></div>
+  </div>
+
+  <div class="sec-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center a">
+      <span class="text-[10px] font-semibold text-violet-400 uppercase tracking-[.12em]">Sertifikasi</span>
+      <h2 class="mt-2 sm:mt-3 text-xl sm:text-2xl md:text-3xl font-medium tracking-tight text-zinc-100">Licenses & Certifications</h2>
+      <div class="line-accent mt-4 mx-auto w-16" style="--lc1:#818cf8;--lc2:#fb7185"></div>
+    </div>
+
+    <div class="mt-8 sm:mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+      <div class="a cc glow-card p-4 sm:p-5 rounded-xl glass hover:border-amber-500/30">
+        <div class="glow-bg" style="background:rgba(245,158,11,.05)"></div>
+        <style>.cc:nth-child(1)::before{background:linear-gradient(to bottom,#f59e0b,#fb7185)!important}</style>
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-400/10 to-rose-400/10 border border-amber-500/15 flex items-center justify-center mb-3"><i data-lucide="award" class="w-4 h-4 text-amber-400"></i></div>
+        <h3 class="text-sm font-medium text-zinc-100 tracking-tight">Junior Mobile Programmer</h3>
+        <p class="text-[11px] text-zinc-400 mt-0.5">Lembaga Sertifikasi Profes</p>
+        <p class="text-[10px] text-zinc-500 mt-1">Sertifikat Kompetensi BNSP Junior Mobile
+        Programmer sebagai bukti kompetensi dalam menganalisis kebutuhan, merancang, mengembangkan, menguji, dan memelihara
+        aplikasi mobile sesuai Standar Kompetensi Kerja Nasional Indonesia (SKKNI)</p>
+        <div class="mt-3 flex items-center gap-1.5 text-[10px] text-zinc-500"><i data-lucide="calendar" class="w-3 h-3"></i>2025</div>
+      </div>
+
+      <div class="a d1 cc glow-card p-4 sm:p-5 rounded-xl glass hover:border-fuchsia-500/30">
+        <div class="glow-bg" style="background:rgba(232,121,249,.05)"></div>
+        <style>.cc:nth-child(2)::before{background:linear-gradient(to bottom,#e879f9,#22d3ee)!important}</style>
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-fuchsia-400/10 to-cyan-400/10 border border-fuchsia-500/15 flex items-center justify-center mb-3"><i data-lucide="shield-check" class="w-4 h-4 text-fuchsia-400"></i></div>
+        <h3 class="text-sm font-medium text-zinc-100 tracking-tight">Junior Web Developer</h3>
+        <p class="text-[11px] text-zinc-400 mt-0.5">Lembaga Sertifikasi Profesi</p>
+        <p class="text-[10px] text-zinc-500 mt-1">Sertifikasi kompetensi di bidang pengembangan web meliputi HTML, CSS, JavaScript, dan PHP.</p>
+        <div class="mt-3 flex items-center gap-1.5 text-[10px] text-zinc-500"><i data-lucide="calendar" class="w-3 h-3"></i>2024</div>
+      </div>
+
+      <div class="a d2 cc glow-card p-4 sm:p-5 rounded-xl glass hover:border-cyan-500/30">
+        <div class="glow-bg" style="background:rgba(34,211,238,.05)"></div>
+        <style>.cc:nth-child(3)::before{background:linear-gradient(to bottom,#22d3ee,#a3e635)!important}</style>
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-400/10 to-lime-400/10 border border-cyan-500/15 flex items-center justify-center mb-3"><i data-lucide="network" class="w-4 h-4 text-cyan-400"></i></div>
+        <h3 class="text-sm font-medium text-zinc-100 tracking-tight">MikroTik MTCNA</h3>
+        <p class="text-[11px] text-zinc-400 mt-0.5">MikroTik</p>
+        <p class="text-[10px] text-zinc-500 mt-1">Sertifikasi jaringan komputer meliputi konfigurasi router, firewall, dan manajemen jaringan.</p>
+        <div class="mt-3 flex items-center gap-1.5 text-[10px] text-zinc-500"><i data-lucide="calendar" class="w-3 h-3"></i>2025</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOCUMENTATION -->
+<section id="documentation" class="sec py-12 sm:py-16 lg:py-24" data-theme="cyan">
+  <div class="sec-decor">
+    <div class="blob blob-m2 blob-lg blob-themed hide-mobile" style="top:-15%;right:-10%;animation-delay:-3s"></div>
+    <div class="spark spark-themed" style="top:20%;left:15%;animation-delay:.3s"></div>
+  </div>
+
+  <div class="sec-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center a">
+      <span class="text-[10px] font-semibold text-cyan-400 uppercase tracking-[.12em]">Galeri</span>
+      <h2 class="mt-2 sm:mt-3 text-xl sm:text-2xl md:text-3xl font-medium tracking-tight text-zinc-100">Activity Gallery</h2>
+      <div class="line-accent mt-4 mx-auto w-16" style="--lc1:#22d3ee;--lc2:#a3e635"></div>
+      <p class="mt-4 text-sm text-zinc-300 font-light leading-relaxed max-w-xl mx-auto">Momen dan kegiatan selama proses pembelajaran, magang, maupun organisasi. (Klik gambar untuk memperbesar)</p>
+    </div>
+
+    <div class="mt-8 sm:mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
+      
+      <div class="gallery-item a group aspect-square cursor-pointer" onclick="openLightbox('img/sertif1.png', 'Sertifikat 1')">
+        <img src="img/sertif1.png" alt="Dokumentasi 1" class="w-full h-full object-contain p-2 bg-zinc-900/50 transition-transform duration-500 group-hover:scale-105">
+        <div class="gallery-overlay">
+          <div class="flex items-center gap-2 text-cyan-300 text-[10px] sm:text-xs font-medium">
+            <i data-lucide="camera" class="w-3 h-3"></i> Sertifikat
+          </div>
+        </div>
+      </div>
+      
+      <div class="gallery-item a d1 group aspect-square cursor-pointer" onclick="openLightbox('img/sertif2.png', 'Sertifikat 2')">
+        <img src="img/sertif2.png" alt="Dokumentasi 2" class="w-full h-full object-contain p-2 bg-zinc-900/50 transition-transform duration-500 group-hover:scale-105">
+        <div class="gallery-overlay">
+          <div class="flex items-center gap-2 text-cyan-300 text-[10px] sm:text-xs font-medium">
+            <i data-lucide="users" class="w-3 h-3"></i> Tim
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item a d2 group aspect-square cursor-pointer" onclick="openLightbox('img/sertif3.png', 'Sertifikat 3')">
+        <img src="img/sertif3.png" alt="Dokumentasi 3" class="w-full h-full object-contain p-2 bg-zinc-900/50 transition-transform duration-500 group-hover:scale-105">
+        <div class="gallery-overlay">
+          <div class="flex items-center gap-2 text-cyan-300 text-[10px] sm:text-xs font-medium">
+            <i data-lucide="presentation" class="w-3 h-3"></i> Sertifikat
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item a d3 group aspect-square cursor-pointer" onclick="openLightbox('img/sertif4.png', 'Sertifikat 4')">
+        <img src="img/sertif4.png" alt="Dokumentasi 4" class="w-full h-full object-contain p-2 bg-zinc-900/50 transition-transform duration-500 group-hover:scale-105">
+        <div class="gallery-overlay">
+          <div class="flex items-center gap-2 text-cyan-300 text-[10px] sm:text-xs font-medium">
+            <i data-lucide="briefcase" class="w-3 h-3"></i> Sertifikat
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item a d4 group aspect-square cursor-pointer" onclick="openLightbox('img/sertif5.png', 'Sertifikat 5')">
+        <img src="img/sertif5.png" alt="Dokumentasi 5" class="w-full h-full object-contain p-2 bg-zinc-900/50 transition-transform duration-500 group-hover:scale-105">
+        <div class="gallery-overlay">
+          <div class="flex items-center gap-2 text-cyan-300 text-[10px] sm:text-xs font-medium">
+            <i data-lucide="code-2" class="w-3 h-3"></i> Sertifikat
+          </div>
+        </div>
+      </div>
+
+      <div class="gallery-item a d5 group aspect-square cursor-pointer" onclick="openLightbox('img/data_analyst.png', 'Olah Data')">
+        <img src="img/data_analyst.png" alt="Dokumentasi 6" class="w-full h-full object-contain p-2 bg-zinc-900/50 transition-transform duration-500 group-hover:scale-105">
+        <div class="gallery-overlay">
+          <div class="flex items-center gap-2 text-cyan-300 text-[10px] sm:text-xs font-medium">
+            <i data-lucide="award" class="w-3 h-3"></i> Olah Data
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- RESUME / CV DOWNLOAD -->
+<section id="resume" class="sec py-12 sm:py-16 lg:py-24" data-theme="sky">
+  <div class="sec-decor">
+    <div class="blob blob-m2 blob-lg blob-themed hide-mobile" style="top:0;right:-5%;animation-delay:-4s"></div>
+    <div class="rglow rglow-lg" style="bottom:0;left:0"></div>
+  </div>
+  <div class="sec-content max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="a text-center p-8 sm:p-12 rounded-2xl sm:rounded-3xl glass border border-zinc-700/50 relative overflow-hidden glow-card">
+      <div class="glow-bg" style="background:rgba(56,189,248,.06)"></div>
+      <div class="absolute inset-0 dash-pattern opacity-30"></div>
+      <div class="relative z-10 flex flex-col items-center">
+        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-sky-400/10 to-cyan-400/10 border border-sky-500/15 flex items-center justify-center mb-4">
+          <i data-lucide="file-text" class="w-6 h-6 text-sky-400"></i>
+        </div>
+        <h2 class="text-xl sm:text-2xl md:text-3xl font-medium tracking-tight text-zinc-100">My Resume / CV</h2>
+        <p class="mt-3 text-sm text-zinc-300 font-light leading-relaxed max-w-lg">Ingin mengetahui detail perjalanan profesional dan akademik saya secara lengkap? Unduh dokumen CV saya dalam format PDF.</p>
+        <div class="mt-6 flex flex-wrap justify-center gap-3">
+          <a href="img/CV_AndinArdelina.pdf" download class="bp inline-flex items-center gap-2 px-6 py-3 text-xs sm:text-sm font-semibold rounded-full">
+            <i data-lucide="download" class="w-4 h-4"></i> Unduh CV (PDF)
+          </a>
+          <a href="img/CV_AndinArdelina.pdf" target="_blank" class="bs inline-flex items-center gap-2 px-6 py-3 text-xs sm:text-sm font-medium rounded-full">
+            <i data-lucide="eye" class="w-4 h-4"></i> Lihat CV Online
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="sec py-12 sm:py-16 lg:py-24" data-theme="emerald">
+  <div class="sec-decor">
+    <div class="blob blob-m3 blob-lg blob-themed hide-mobile" style="top:-15%;left:10%;animation-delay:-4s"></div>
+    <div class="aurora aurora-themed hide-mobile" style="top:55%;left:-50%;animation-duration:11s"></div>
+  </div>
+
+  <div class="sec-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-2xl mx-auto text-center">
+      <div class="a">
+        <span class="text-[10px] font-semibold text-emerald-400 uppercase tracking-[.12em]">Kontak</span>
+        <h2 class="mt-2 sm:mt-3 text-xl sm:text-2xl md:text-3xl font-medium tracking-tight text-zinc-100">Connect with Me</h2>
+        <div class="line-accent mt-4 mx-auto w-16" style="--lc1:#34d399;--lc2:#22d3ee"></div>
+        <p class="mt-4 text-sm text-zinc-300 font-light leading-relaxed">Tertarik untuk berkolaborasi atau ingin mengetahui lebih lanjut? Jangan ragu untuk menghubungi saya melalui platform berikut.</p>
+      </div>
+
+      <div class="a d2 mt-8 sm:mt-10 grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+        <a href="mailto:andinardelinaa@gmail.com" class="glow-card flex flex-col items-center gap-3 p-5 sm:p-6 rounded-2xl glass hover:border-rose-500/40 transition-all duration-300 group">
+          <div class="glow-bg" style="background:rgba(251,113,133,.08)"></div>
+          <div class="w-12 h-12 rounded-2xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center group-hover:bg-rose-500/15 transition-colors shadow-lg"><i data-lucide="mail" class="w-6 h-6 text-rose-400"></i></div>
+          <span class="text-xs sm:text-sm font-medium text-zinc-300 group-hover:text-rose-300 transition-colors">Email</span>
+        </a>
+        <a href="https://linkedin.com/in/andinardelinasaputri" target="_blank" class="glow-card flex flex-col items-center gap-3 p-5 sm:p-6 rounded-2xl glass hover:border-fuchsia-500/40 transition-all duration-300 group">
+          <div class="glow-bg" style="background:rgba(232,121,249,.08)"></div>
+          <div class="w-12 h-12 rounded-2xl bg-fuchsia-500/10 border border-fuchsia-500/20 flex items-center justify-center group-hover:bg-fuchsia-500/15 transition-colors shadow-lg"><i class="fa-brands fa-linkedin-in text-fuchsia-400 text-2xl"></i></div>
+          <span class="text-xs sm:text-sm font-medium text-zinc-300 group-hover:text-fuchsia-300 transition-colors">LinkedIn</span>
+        </a>
+        <a href="https://github.com/andinardelinaa" target="_blank" class="glow-card flex flex-col items-center gap-3 p-5 sm:p-6 rounded-2xl glass hover:border-orange-500/40 transition-all duration-300 group">
+          <div class="glow-bg" style="background:rgba(249,115,22,.08)"></div>
+          <div class="w-12 h-12 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center group-hover:bg-orange-500/15 transition-colors shadow-lg"><i class="fa-brands fa-github text-orange-400 text-2xl"></i></div>
+          <span class="text-xs sm:text-sm font-medium text-zinc-300 group-hover:text-orange-300 transition-colors">GitHub</span>
+        </a>
+        <a href="https://wa.me/6282233084375" target="_blank" class="glow-card flex flex-col items-center gap-3 p-5 sm:p-6 rounded-2xl glass hover:border-emerald-500/40 transition-all duration-300 group">
+          <div class="glow-bg" style="background:rgba(52,211,153,.08)"></div>
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center group-hover:bg-emerald-500/15 transition-colors shadow-lg"><i data-lucide="message-circle" class="w-6 h-6 text-emerald-400"></i></div>
+          <span class="text-xs sm:text-sm font-medium text-zinc-300 group-hover:text-emerald-300 transition-colors">WhatsApp</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="sec py-8 sm:py-10 border-t border-zinc-800/50" data-theme="amber">
+  <div class="sec-decor">
+    <div class="blob blob-m1 blob-md blob-themed hide-mobile" style="top:-50%;left:30%;opacity:.5;animation-delay:-10s"></div>
+  </div>
+  <div class="sec-content max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <span class="text-sm font-semibold tracking-tight text-zinc-300">portfolio<span class="text-amber-500">.</span></span>
+        <span class="text-[10px] text-zinc-500">© 2025</span>
+      </div>
+      <p class="text-[10px] sm:text-xs text-zinc-500 text-center">Dibuat dengan <span class="text-rose-500">♥</span> oleh Andin Ardelina Saputri</p>
+      <div class="flex items-center gap-3">
+        <a href="https://github.com/andinardelinaa" target="_blank" class="text-zinc-500 hover:text-zinc-300 transition-colors"><i data-lucide="github" class="w-4 h-4"></i></a>
+        <a href="https://linkedin.com/in/andinardelinasaputri" target="_blank" class="text-zinc-500 hover:text-zinc-300 transition-colors"><i data-lucide="linkedin" class="w-4 h-4"></i></a>
+        <a href="mailto:andinardelinaa@gmail.com" class="text-zinc-500 hover:text-zinc-300 transition-colors"><i data-lucide="mail" class="w-4 h-4"></i></a>
+        <a href="https://wa.me/6282233084375" target="_blank" class="text-zinc-500 hover:text-zinc-300 transition-colors"><i data-lucide="message-circle" class="w-4 h-4"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md hidden items-center justify-center p-4 cursor-pointer" onclick="closeLightbox()">
+  <button class="absolute top-6 right-6 text-white/80 hover:text-white transition-colors p-2 rounded-full hover:bg-white/10" onclick="closeLightbox()">
+    <i data-lucide="x" class="w-8 h-8"></i>
+  </button>
+  <div class="max-w-4xl w-full max-h-[85vh] flex flex-col items-center gap-4" onclick="event.stopPropagation()">
+    <img id="lightboxImg" src="" alt="Preview" class="max-w-full max-h-[75vh] rounded-lg shadow-2xl object-contain transition-all duration-300">
+    <p id="lightboxCaption" class="text-zinc-300 text-sm font-medium text-center"></p>
+  </div>
+</div>
+
+<!-- JAVASCRIPT -->
+<script>
+lucide.createIcons();
+
+/* --- Mobile menu --- */
+const menuBtn = document.getElementById('menuBtn');
+const mobileMenu = document.getElementById('mobileMenu');
+const mobileLinks = document.querySelectorAll('.mobile-link');
+let menuOpen = false;
+
+menuBtn.addEventListener('click', () => {
+  menuOpen = !menuOpen;
+  mobileMenu.classList.toggle('open', menuOpen);
+});
+mobileLinks.forEach(link => {
+  link.addEventListener('click', () => {
+    menuOpen = false;
+    mobileMenu.classList.remove('open');
+  });
+});
+
+/* --- Scroll reveal --- */
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.classList.add('v');
+
+    if (entry.target.classList.contains('tl-item')) {
+      entry.target.querySelectorAll('.tl-dot').forEach((dot, i) => {
+        setTimeout(() => dot.classList.add('v'), i * 100);
+      });
+      entry.target.querySelectorAll('.li').forEach((item, i) => {
+        setTimeout(() => item.classList.add('v'), 150 + i * 80);
+      });
+    }
+  });
+}, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+document.querySelectorAll('.a, .inf, .li, .stag, .tl-item').forEach(el => {
+  revealObserver.observe(el);
+});
+
+/* --- Staggered skill tags --- */
+const tagObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.querySelectorAll('.stag').forEach((tag, i) => {
+      setTimeout(() => tag.classList.add('v'), i * 40);
+    });
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.skill-tags, .skill-tags-soft').forEach(el => {
+  tagObserver.observe(el);
+});
+
+/* --- Counter animation --- */
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !entry.target.dataset.counted) {
+      entry.target.dataset.counted = '1';
+      const target = +entry.target.dataset.count;
+      const duration = 1200;
+      const start = performance.now();
+
+      function update(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        entry.target.textContent = Math.round(target * eased);
+        if (progress < 1) requestAnimationFrame(update);
+      }
+      requestAnimationFrame(update);
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('[data-count]').forEach(el => {
+  counterObserver.observe(el);
+});
+
+/* --- Navbar & Scroll Progress --- */
+const navbar = document.getElementById('navbar');
+const scrollProgress = document.getElementById('scrollProgress');
+
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+  navbar.style.borderBottomColor = y > 50 ? 'rgba(63,63,70,.4)' : 'rgba(63,63,70,.2)';
+  navbar.style.background = y > 50 ? 'rgba(12,12,18,.9)' : 'rgba(12,12,18,.7)';
+  
+  const winHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  const scrolled = (y / winHeight) * 100;
+  scrollProgress.style.width = scrolled + '%';
+}, { passive: true });
+
+/* --- Active nav link --- */
+const sections = document.querySelectorAll('section[ID]');
+const navLinks = document.querySelectorAll('.nl');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    if (window.scrollY >= section.offsetTop - 200) {
+      current = section.id;
+    }
+  });
+  navLinks.forEach(link => {
+    link.classList.toggle('ac', link.getAttribute('href') === '#' + current);
+  });
+}, { passive: true });
+
+/* --- Project Slider Navigation --- */
+const track = document.getElementById('projectSlider');
+const prevBtn = document.getElementById('prevProject');
+const nextBtn = document.getElementById('nextProject');
+
+if (track) {
+  const getScrollAmount = () => {
+    const card = track.querySelector('.slide-card');
+    if (card) {
+      const style = window.getComputedStyle(track);
+      const gap = parseFloat(style.gap);
+      return card.offsetWidth + gap;
+    }
+    return track.offsetWidth * 0.8;
+  };
+
+  nextBtn.addEventListener('click', () => {
+    track.scrollBy({ left: getScrollAmount(), behavior: 'smooth' });
+  });
+  
+  prevBtn.addEventListener('click', () => {
+    track.scrollBy({ left: -getScrollAmount(), behavior: 'smooth' });
+  });
+}
+
+/* --- Lightbox Gallery --- */
+function openLightbox(src, caption) {
+  const lightbox = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImg');
+  const captionText = document.getElementById('lightboxCaption');
+  
+  img.src = src;
+  captionText.textContent = caption;
+  lightbox.classList.remove('hidden');
+  lightbox.classList.add('flex');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  const lightbox = document.getElementById('lightbox');
+  lightbox.classList.add('hidden');
+  lightbox.classList.remove('flex');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    closeLightbox();
+  }
+});
+</script>
+</body>
+</html>
