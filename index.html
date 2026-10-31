@@ -538,7 +538,7 @@ footer{padding:18px 0}
       <ul class="hl">
         <li><i class="fa-solid fa-laptop-code"></i><div><b>FullStack Developer Intern — Diskominfo Banyumas</b><span>Web (Laravel) & mobile (Flutter), REST API, hingga deployment.</span></div></li>
         <li><i class="fa-solid fa-certificate"></i><div><b>Tersertifikasi</b><span>Junior Web Developer, Junior Mobile Programming, MikroTik MTCNA.</span></div></li>
-        <li><i class="fa-solid fa-crown"></i><div><b>Runner Up 1 Duta Kampus</b><span>Politeknik Negeri Cilacap — public speaking dan kepemimpinan.</span></div></li>
+        <li><i class="fa-solid fa-crown"></i><div><b>Runner Up 1 Duta Kampus</b><span>Politeknik Negeri Cilacap — public speaking </span></div></li>
       </ul>
       <div class="info-row">
         <span><i class="fa-solid fa-location-dot"></i>Banyumas, Jawa Tengah</span>
@@ -625,7 +625,7 @@ const EXPERIENCES=[
    desc:'Mengelola konten serta struktur website rumah sakit menggunakan WordPress. Memastikan uptime, responsivitas, dan pengalaman pengguna optimal.',
    photos:docs([['tefa.jpeg','Dokumentasi TEFA 1'],['tefa1.jpeg','Dokumentasi TEFA 2']])},
   {icon:'fa-crown',period:'2024 – 2025',title:'Runner Up 1 Duta Kampus',org:'Politeknik Negeri Cilacap',
-   desc:'Meraih posisi Runner Up 1 Duta Kampus dengan berperan sebagai representasi institusi dalam memperkenalkan profil, program, dan potensi kampus kepada publik serta mengembangkan kemampuan komunikasi, public speaking, kepemimpinan, dan hubungan interpersonal.',
+   desc:'Meraih posisi Runner Up 1 Duta Kampus dengan berperan sebagai representasi institusi dalam memperkenalkan profil, program, dan potensi kampus kepada publik serta mengembangkan kemampuan komunikasi, public speaking, dan hubungan interpersonal.',
    photos:docs([['dutkam.jpeg','Dokumentasi Duta Kampus 1'],['dutkam1.jpeg','Dokumentasi Duta Kampus 2']])},
   {icon:'fa-scale-balanced',period:'2024 – 2025',title:'BPM Komisi UU & Perlindungan Hukum',org:'Politeknik Negeri Cilacap',
    desc:'Berpartisipasi dalam penyusunan AD/ART dan peraturan organisasi, serta menjadi panitia sidang organisasi kemahasiswaan. Berkontribusi dalam penyusunan landasan dan tata tertib organisasi untuk mendukung tata kelola yang terstruktur, transparan, dan sesuai ketentuan.',
@@ -667,7 +667,7 @@ const fine=matchMedia('(hover:hover) and (pointer:fine)').matches&&!reduce;
 /* ===== RENDER ===== */
 const ul=a=>`<ul class="sk-list">${a.map(([i,n])=>`<li><i class="${i}"></i>${esc(n)}</li>`).join('')}</ul>`;
 $('#skillsPanel').innerHTML=`<div class="sk-grid">${SKILLS.map(([t,s,ic,it])=>`<div class="sk-col"><h3><i class="fa-solid ${ic}"></i>${esc(t)}</h3><small>${esc(s)}</small>${ul(it)}</div>`).join('')}</div>
-<div class="soft sk-col"><h3><i class="fa-solid fa-people-arrows"></i>Soft Skills</h3><small>Kolaborasi, komunikasi, kepemimpinan</small>${ul(SOFT)}</div>`;
+<div class="soft sk-col"><h3><i class="fa-solid fa-people-arrows"></i>Soft Skills</h3><small>Kolaborasi, komunikasi </small>${ul(SOFT)}</div>`;
 
 /* marquee teknologi (dari data skill, tanpa duplikat) */
 const seen=new Set(),techs=[];
